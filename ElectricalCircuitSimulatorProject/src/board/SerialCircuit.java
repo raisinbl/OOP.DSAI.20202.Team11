@@ -14,4 +14,9 @@ public class SerialCircuit extends Circuit implements Calculator{
     @Override
     public void calculateV() {
     }
+
+    @Override
+    public boolean checkShortCircuit() {
+        return false;
+    }
 }

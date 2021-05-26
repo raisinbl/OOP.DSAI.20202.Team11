@@ -1,9 +1,19 @@
 package board.component;
 
 public abstract class Component {
-    protected double R;
-    protected double I;
-    protected double V;
+    private Complex R;
+    private double I;
+    private double V;
+    private String id;
+    private String prefix;
+
+    public void setR(Complex r) {
+        R = r;
+    }
+
+    public double getR() {
+        return R.abs();
+    }
 
     public double getI() {
         return I;
@@ -21,8 +31,20 @@ public abstract class Component {
         V = v;
     }
 
-
-    public double getR() {
-        return R;
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
 }

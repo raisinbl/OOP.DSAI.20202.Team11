@@ -5,10 +5,16 @@ public class Inductor extends  Component{
 
     public Inductor(double L, double f) {
         this.L = L;
-        this.R = 2 * Math.PI * f * L;
+        setR(new Complex(0,2 * Math.PI * f * L));
+        setPrefix("L");
     }
 
     public double getL() {
         return L;
+    }
+
+    @Override
+    public String toString() {
+        return "Inductor: " + getId() + " | Inductance: " + getL() + "(H)";
     }
 }
