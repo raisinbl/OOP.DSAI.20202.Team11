@@ -1,6 +1,8 @@
-package board.component;
+package board.component.complex;
 
 import java.util.Objects;
+
+// Source: https://introcs.cs.princeton.edu/java/32class/Complex.java.html
 
 public class Complex {
     private final double re;   // the real part

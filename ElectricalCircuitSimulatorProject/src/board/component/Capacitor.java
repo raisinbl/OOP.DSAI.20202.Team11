@@ -1,5 +1,7 @@
 package board.component;
 
+import board.component.complex.Complex;
+
 public class Capacitor extends Component {
     private double C;
 

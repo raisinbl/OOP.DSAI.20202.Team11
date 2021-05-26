@@ -1,5 +1,7 @@
 package board.component;
 
+import board.component.complex.Complex;
+
 public abstract class Component {
     private Complex R;
     private double I;

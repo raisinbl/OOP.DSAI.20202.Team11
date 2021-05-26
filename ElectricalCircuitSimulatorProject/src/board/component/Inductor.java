@@ -1,5 +1,7 @@
 package board.component;
 
+import board.component.complex.Complex;
+
 public class Inductor extends  Component{
     private double L;
 
