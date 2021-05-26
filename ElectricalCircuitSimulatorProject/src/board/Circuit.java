@@ -28,6 +28,12 @@ public abstract class Circuit {
         }
     }
 
+    public void removeComponent() {
+        System.out.println(componentsList.remove(componentsList.size() - 1).getId() + " has been removed from the circuit.");
+        nComponents--;
+    }
+
+
     public Source getSource() {
         return source;
     }
