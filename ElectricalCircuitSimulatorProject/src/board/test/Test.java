@@ -14,6 +14,7 @@ public class Test {
         Capacitor C3 = new Capacitor(20*Math.pow(10, -6), source.get_f());
         Resistor R4 = new Resistor(200);
         Resistor R5 = new Resistor(150);
+        Inductor L6 = new Inductor(200*Math.pow(10, -3), source.get_f());
         System.out.print("Impedance: ");
         System.out.println(Math.sqrt(R1.getR()*R1.getR() + (C3.getR() - L2.getR())*(C3.getR() - L2.getR())));
 
@@ -25,7 +26,7 @@ public class Test {
         circuit.addComponent(R5);
         circuit.addComponent(R5);
         circuit.removeComponent();
-
+        circuit.addComponent(L6);
 
         circuit.calculateV();
         circuit.calculateI();

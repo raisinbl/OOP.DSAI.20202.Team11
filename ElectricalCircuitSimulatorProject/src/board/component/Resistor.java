@@ -8,7 +8,6 @@ public class Resistor extends Component{
         setPrefix("R");
     }
 
-
     @Override
     public String toString() {
         return "Resistor: " + getId() + " | Resistance: " + getR() + "(Ω)";
