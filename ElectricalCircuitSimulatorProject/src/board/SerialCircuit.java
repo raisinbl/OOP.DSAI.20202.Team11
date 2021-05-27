@@ -14,6 +14,7 @@ public class SerialCircuit extends Circuit implements Calculator{
     public double calculateZ(){
         Complex Z =new Complex(0,0);
         Complex ZC =new Complex(0, 0);
+        Complex a= new Complex(0, - Double.POSITIVE_INFINITY);
         double check=0;
         double c=0;
         for (Component component: getComponentsList()){
@@ -22,7 +23,7 @@ public class SerialCircuit extends Circuit implements Calculator{
             }
             else{
                 if (getSource().get_f()==0){
-                    ZC=ZC.plus(Complex(0, - Double.POSITIVE_INFINITY));
+                    ZC=ZC.plus(a);
                     check=1;
                 }
                 else{
@@ -30,8 +31,9 @@ public class SerialCircuit extends Circuit implements Calculator{
                 }
             }
         }
+        Complex b= new Complex(0, - 1 / (2 * Math.PI * getSource().get_f()/c));
         if (check!=1){
-            ZC=ZC.plus(Complex(0, - 1 / (2 * Math.PI * getSource().get_f()/c)));
+            ZC=ZC.plus(b);
             Z=Z.plus(ZC);
             return Z.abs();
         }
