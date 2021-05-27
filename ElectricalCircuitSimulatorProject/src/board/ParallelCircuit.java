@@ -1,13 +1,8 @@
 package board;
 
 import board.component.Component;
-import board.source.Source;
 
 public class ParallelCircuit extends Circuit implements Calculator{
-    public ParallelCircuit(Source source) {
-        super(source);
-    }
-
     @Override
     public void calculateI() {
         if (!checkShortCircuit()) {

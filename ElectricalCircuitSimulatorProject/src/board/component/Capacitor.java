@@ -10,6 +10,7 @@ public class Capacitor extends Component {
         if (f == 0) setR(new Complex(0, - Double.POSITIVE_INFINITY));
         else setR(new Complex(0, - 1 / (2 * Math.PI * f * C)));
         setPrefix("C");
+        setUnit("F");
     }
 
     public double getC() {
@@ -18,6 +19,6 @@ public class Capacitor extends Component {
 
     @Override
     public String toString() {
-        return "Capacitor: " + getId() + " | Capacitance: " + getC() + "(F)";
+        return "Capacitor: " + getId() + " | Capacitance: " + getC() + "(" + getUnit() + ")";
     }
 }

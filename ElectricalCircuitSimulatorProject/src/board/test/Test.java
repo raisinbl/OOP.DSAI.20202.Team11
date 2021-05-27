@@ -18,7 +18,8 @@ public class Test {
         System.out.print("Impedance: ");
         System.out.println(Math.sqrt(R1.getR()*R1.getR() + (C3.getR() - L2.getR())*(C3.getR() - L2.getR())));
 
-        ParallelCircuit circuit = new ParallelCircuit(source);
+        ParallelCircuit circuit = new ParallelCircuit();
+        circuit.setSource(source);
         circuit.addComponent(R1);
         circuit.addComponent(L2);
         circuit.addComponent(C3);

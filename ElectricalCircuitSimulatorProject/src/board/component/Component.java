@@ -8,6 +8,7 @@ public abstract class Component {
     private double V;
     private String id;
     private String prefix;
+    private String unit;
 
     public void setR(Complex r) {
         R = r;
@@ -51,6 +52,14 @@ public abstract class Component {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
 }

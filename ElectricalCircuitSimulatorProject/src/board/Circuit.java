@@ -11,12 +11,13 @@ public abstract class Circuit {
     private int nComponents = 0;
     private ArrayList<Component> componentsList = new ArrayList<Component>();
 
-    public Circuit(Source source) {
-        this.source = source;
+    public Circuit() {
+        super();
     }
 
     public void addComponent(Component component) {
         if (nComponents >= MAX_COMPONENTS) {
+            System.out.println("Can't add more components! Max number is reached!");
             System.out.println("Can't add more components! Max number is reached!");
         }
         else {
@@ -36,6 +37,10 @@ public abstract class Circuit {
 
     public Source getSource() {
         return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     public int getnComponents() {

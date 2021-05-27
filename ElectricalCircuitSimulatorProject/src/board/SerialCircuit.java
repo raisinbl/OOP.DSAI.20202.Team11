@@ -2,13 +2,8 @@ package board;
 
 import board.component.Component;
 import board.component.complex.Complex;
-import board.source.Source;
 
 public class SerialCircuit extends Circuit implements Calculator{
-    public SerialCircuit(Source source) {
-        super(source);
-    }
-
     public double calculateZ() {
         Complex Z = new Complex(0, 0);
         for (Component component: getComponentsList()) {
