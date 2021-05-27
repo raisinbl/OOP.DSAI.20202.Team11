@@ -46,8 +46,31 @@ public class SerialCircuit extends Circuit implements Calculator{
     @Override
     public void calculateI() {
         Complex Z =new Complex(0,0);
+        Complex ZC =new Complex(0, 0);
+        Complex a= new Complex(0, - Double.POSITIVE_INFINITY);
+        double check=0;
+        double c=0;
         for (Component component: getComponentsList()){
-            Z=Z.plus(component.getr());
+            if (component.getPrefix()!="C" ){
+                Z=Z.plus(component.getr());
+            }
+            else{
+                if (getSource().get_f()==0){
+                    ZC=ZC.plus(a);
+                    check=1;
+                }
+                else{
+                    c+=1/ ((Capacitor) component).getC();
+                }
+            }
+        }
+        Complex b= new Complex(0, - 1 / (2 * Math.PI * getSource().get_f()/c));
+        if (check!=1){
+            ZC=ZC.plus(b);
+            Z=Z.plus(ZC);
+        }
+        else{
+            Z=Z.plus(ZC);
         }
         for (Component component: getComponentsList()) {
             component.setI(getSource().getV()/Z.abs());

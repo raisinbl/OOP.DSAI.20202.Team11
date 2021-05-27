@@ -11,10 +11,11 @@ import board.source.Source;
 
 public class Test {
     public static void main(String[] args) {
-        Source source = new Source(72, 50);
+        Source source = new Source(164, 50);
         Resistor R1 = new Resistor(40);
         Inductor L2 = new Inductor(0.4/Math.PI, source.get_f());
         Capacitor C3 = new Capacitor(Math.pow(10, -4)/Math.PI, source.get_f());
+        Capacitor C4 = new Capacitor(Math.pow(10, -4)/Math.PI, source.get_f());
         Resistor R4 = new Resistor(200);
         Resistor R5 = new Resistor(150);
         Inductor L6 = new Inductor(200*Math.pow(10, -3), source.get_f());
@@ -25,7 +26,7 @@ public class Test {
         circuit.addComponent(R1);
         circuit.addComponent(L2);
         circuit.addComponent(C3);
-        // circuit.addComponent(R4);
+        circuit.addComponent(C4);
         // circuit.addComponent(R5);
         // circuit.addComponent(R5);
         // circuit.removeComponent();
@@ -33,11 +34,11 @@ public class Test {
 
         // circuit.calculateV();
         // circuit.calculateI();
-        circuit.displayAnalysis();
         System.out.println(circuit.calculateZ());
         // System.out.println(C3.getR());
-        // circuit.calculateI();
-        // circuit.calculateV();
+        circuit.calculateI();
+        circuit.calculateV();
+        circuit.displayAnalysis();
  
     }
 }
