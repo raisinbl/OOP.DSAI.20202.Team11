@@ -33,11 +33,11 @@ public class Test {
 
         // circuit.calculateV();
         // circuit.calculateI();
-        
-        System.out.println(circuit.calculateZ());
-        System.out.println(C3.getR());
-        circuit.calculateI();
-        circuit.calculateV();
         circuit.displayAnalysis();
+        System.out.println(circuit.calculateZ());
+        // System.out.println(C3.getR());
+        // circuit.calculateI();
+        // circuit.calculateV();
+ 
     }
 }
