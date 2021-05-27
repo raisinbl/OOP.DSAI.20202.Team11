@@ -3,14 +3,15 @@ package board.component;
 import board.component.complex.Complex;
 
 public abstract class Component {
-    private Complex R;
-    private double I;
-    private double V;
-    private String id;
-    private String prefix;
+	private String id;
+	private Complex R;
+	private double I;
+	private double V;
+	private String prefix;
+    private String unit;
 
     public void setR(Complex r) {
-        R = r;
+        this.R = r;
     }
 
     public double getR() {
@@ -22,7 +23,7 @@ public abstract class Component {
     }
 
     public void setI(double i) {
-        I = i;
+        this.I = i;
     }
 
     public double getV() {
@@ -30,7 +31,7 @@ public abstract class Component {
     }
 
     public void setV(double v) {
-        V = v;
+        this.V = v;
     }
 
     public String getId() {
@@ -48,5 +49,11 @@ public abstract class Component {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-
+    
+    public String getUnit() {
+    	return unit;
+    }
+    public void setUnit(String unit) {
+    	this.unit=unit;
+    }
 }

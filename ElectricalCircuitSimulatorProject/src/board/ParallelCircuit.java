@@ -4,10 +4,10 @@ import board.component.Component;
 import board.source.Source;
 
 public class ParallelCircuit extends Circuit implements Calculator{
-    public ParallelCircuit(Source source) {
-        super(source);
-    }
-
+	public ParallelCircuit() {
+		super();
+	}
+    
     @Override
     public void calculateI() {
         if (!checkShortCircuit()) {

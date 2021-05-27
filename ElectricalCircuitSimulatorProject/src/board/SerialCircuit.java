@@ -3,8 +3,8 @@ package board;
 import board.source.Source;
 
 public class SerialCircuit extends Circuit implements Calculator{
-    public SerialCircuit(Source source) {
-        super(source);
+    public SerialCircuit() {
+        super();
     }
 
     @Override

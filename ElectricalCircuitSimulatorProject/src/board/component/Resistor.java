@@ -6,6 +6,7 @@ public class Resistor extends Component{
     public Resistor(double R) {
         setR(new Complex(R, 0));
         setPrefix("R");
+        setUnit("Ω");
     }
 
 

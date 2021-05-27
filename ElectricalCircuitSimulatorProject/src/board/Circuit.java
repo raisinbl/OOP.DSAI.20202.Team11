@@ -2,17 +2,16 @@ package board;
 
 import board.component.Component;
 import board.source.Source;
-
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public abstract class Circuit {
     private Source source;
     private static final int MAX_COMPONENTS = 5;
     private int nComponents = 0;
-    private ArrayList<Component> componentsList = new ArrayList<Component>();
-
-    public Circuit(Source source) {
-        this.source = source;
+    private ObservableList<Component> componentsList = FXCollections.observableArrayList();
+    public Circuit() {
+        super();
     }
 
     public void addComponent(Component component) {
@@ -27,7 +26,9 @@ public abstract class Circuit {
             System.out.println(component);
         }
     }
-
+    public void removeAllComponent() {
+    	componentsList = null;
+    }
     public void removeComponent() {
         System.out.println(componentsList.remove(componentsList.size() - 1).getId() + " has been removed from the circuit.");
         nComponents--;
@@ -37,15 +38,17 @@ public abstract class Circuit {
     public Source getSource() {
         return source;
     }
-
+    public void setSource(Source source) {
+    	this.source = source;
+    }
     public int getnComponents() {
         return nComponents;
     }
 
-    public ArrayList<Component> getComponentsList() {
+    public ObservableList<Component> getComponentsList() {
         return componentsList;
     }
-
+    
     public void displayAnalysis() {
         for (Component component: componentsList) {
             System.out.println(

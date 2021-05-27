@@ -9,6 +9,7 @@ public class Inductor extends  Component{
         this.L = L;
         setR(new Complex(0,2 * Math.PI * f * L));
         setPrefix("L");
+        setUnit("H");
     }
 
     public double getL() {

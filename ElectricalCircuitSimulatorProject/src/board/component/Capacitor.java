@@ -7,9 +7,10 @@ public class Capacitor extends Component {
 
     public Capacitor(double C, double f) {
         this.C = C;
-        if (f == 0) setR(new Complex(0, Double.POSITIVE_INFINITY));
-        else setR(new Complex(0, 1 / (2 * Math.PI * f * C)));
+        if (f == 0) setR(new Complex(0, - Double.POSITIVE_INFINITY));
+        else setR(new Complex(0, - 1 / (2 * Math.PI * f * C)));
         setPrefix("C");
+        setUnit("F");
     }
 
     public double getC() {

@@ -12,7 +12,7 @@ public class Source {
         return V;
     }
 
-    public double get_f() {
+    public double getF() {
         return f;
     }
 }
