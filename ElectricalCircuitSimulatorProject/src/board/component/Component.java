@@ -17,6 +17,10 @@ public abstract class Component {
         return R.abs();
     }
 
+    public Complex getr(){
+        return R;
+    }
+
     public double getI() {
         return I;
     }
