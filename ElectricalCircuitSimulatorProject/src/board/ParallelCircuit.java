@@ -7,8 +7,8 @@ public class ParallelCircuit extends Circuit implements Calculator{
 	public ParallelCircuit() {
 		super();
 	}
-    
-    @Override
+
+	@Override
     public void calculateI() {
         if (!checkShortCircuit()) {
             for (Component component: getComponentsList()) {

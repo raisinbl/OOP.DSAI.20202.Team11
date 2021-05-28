@@ -28,11 +28,11 @@
                   </Label>
                   <HBox>
                      <children>
-                        <Button fx:id="btnSerial" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" text="Serial">
+                        <Button fx:id="btnSerial" mnemonicParsing="false" onAction="#btnSerrialPressed" prefHeight="25.0" prefWidth="190.0" text="Serial">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin></Button>
-                        <Button fx:id="btnParralel" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="Parralel">
+                        <Button fx:id="btnParralel" mnemonicParsing="false" onAction="#btnParrallelPressed" prefHeight="25.0" prefWidth="203.0" text="Parralel">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin></Button>
@@ -58,9 +58,16 @@
                      </padding>
                   </HBox>
                   <ScrollPane fx:id="waitingPane" prefHeight="270.0" prefWidth="400.0">
-                    <content>
-                      <AnchorPane fx:id="componentPane" maxWidth="1.7976931348623157E308" />
-                    </content>
+                     <content>
+                        <VBox fx:id="contentBox" maxWidth="1.7976931348623157E308" spacing="10.0">
+                           <opaqueInsets>
+                              <Insets bottom="20.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="15.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
                   </ScrollPane>
                   <Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="39.0" text="Choose your components: (maximum 5)">
                      <font>
@@ -78,19 +85,19 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="btnAddR" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: red;" text="Add a Resistor">
+                        <Button fx:id="btnAddR" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddRPressed" style="-fx-background-color: red;" text="Add a Resistor">
                            <GridPane.margin>
                               <Insets bottom="5.0" right="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnAddC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: green;" text="Add a Capacitor" GridPane.rowIndex="1">
+                        <Button fx:id="btnAddC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddCPressed" style="-fx-background-color: green;" text="Add a Capacitor" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnRemove" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Remove Component" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Button fx:id="btnRemove" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove Component" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnAddL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: blue;" text="Add a Inductor" GridPane.rowIndex="2">
+                        <Button fx:id="btnAddL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddLPressed" style="-fx-background-color: blue;" text="Add a Inductor" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets right="5.0" top="5.0" />
                            </GridPane.margin></Button>

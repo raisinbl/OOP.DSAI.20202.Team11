@@ -38,7 +38,7 @@ public abstract class Circuit {
     public Source getSource() {
         return source;
     }
-    public void setSource(Source source) {
+    public void addSource(Source source) {
     	this.source = source;
     }
     public int getnComponents() {

@@ -55,7 +55,8 @@ public class ElictricalApplication extends JFrame{
         System.out.print("Impedance: ");
         System.out.println(Math.sqrt(R1.getR()*R1.getR() + (C3.getR() - L2.getR())*(C3.getR() - L2.getR())));
 
-        ParallelCircuit circuit = new ParallelCircuit(source);
+        ParallelCircuit circuit = new ParallelCircuit();
+        circuit.addSource(source);
         circuit.addComponent(R1);
         circuit.addComponent(L2);
         circuit.addComponent(C3);
@@ -63,7 +64,6 @@ public class ElictricalApplication extends JFrame{
         circuit.addComponent(R5);
         circuit.addComponent(R5);
         circuit.removeComponent();
-
 
         circuit.calculateV();
         circuit.calculateI();

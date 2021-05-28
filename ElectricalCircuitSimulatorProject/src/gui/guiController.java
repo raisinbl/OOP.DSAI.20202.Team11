@@ -29,22 +29,20 @@ public class guiController {
     
     @FXML
     private Pane diagramPane;
+    
     @FXML
-    private AnchorPane componentPane;
+    private VBox contentBox;
     
     @FXML
     private Button btnSerial, btnParralel;
     
-    @FXML
-    private Button btnAC, btnDC;
-
     @FXML
     private Button  btnAddR, btnAddL, btnAddC;
     
     @FXML
     private Button btnCreateNewCircuit, btnRemove, btnSubmit, btnExit;
     
-    static private Circuit circuit;
+   private Circuit circuit;
 //    private ParallelCircuit PCircuit;
 //    private SerialCircuit SCircuit;
     
@@ -58,16 +56,16 @@ public class guiController {
     }
    @FXML
     private void initialize() {
-    	colID.setCellValueFactory(new 
-    			PropertyValueFactory<Component, String>("Component"));
-    	colR.setCellValueFactory(new 
-    			PropertyValueFactory<Component, Complex>("R (Ω)"));
-    	colU.setCellValueFactory(new 
-    			PropertyValueFactory<Component, Double>("U (V)"));
-    	colI.setCellValueFactory(new 
-    			PropertyValueFactory<Component, Double>("I (A)"));
-    	tbCircuitAnalysis.setItems(this.circuit.getComponentsList());
-    	
+//    	colID.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, String>("Component"));
+//    	colR.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Complex>("R (Ω)"));
+//    	colU.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Double>("U (V)"));
+//    	colI.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Double>("I (A)"));
+//    	tbCircuitAnalysis.setItems(this.circuit.getComponentsList());
+//    	
 //    	tbCircuitAnalysis.getSelectionModel().selectedItemProperty().addListener(
 //    			(ChangeListener<? super Component>) new ChangeListener<Component>() {
 //
@@ -93,27 +91,58 @@ public class guiController {
 	   circuit = new ParallelCircuit();
    }
    @FXML
-   void addComponentX(ActionEvent event) {
+   void btnAddRPressed(ActionEvent event) {
 	   componentBox componentBox = new componentBox();
-	   componentBox.initialize();
+	   Resistor resistor = new Resistor();
+	componentBox.initialize(resistor);
+	contentBox.getChildren().add(componentBox);
    }
+   
+   @FXML
+   void btnAddLPressed(ActionEvent event) {
+	   componentBox componentBox = new componentBox();
+	   Inductor inductor = new Inductor();
+	componentBox.initialize(inductor);
+	contentBox.getChildren().add(componentBox);
+   }
+   
+   @FXML
+   void btnAddCPressed(ActionEvent event) {
+	   componentBox componentBox = new componentBox();
+	   Capacitor capacitor = new Capacitor();
+	componentBox.initialize(capacitor);
+	contentBox.getChildren().add(componentBox);
+   }
+   
+   @FXML
+   void btnRemovePressed(ActionEvent event) {
+	   try {
+	   contentBox.getChildren().remove((contentBox.getChildren().size()-1));
+	   componentBox.i -- ;
+	   } catch(IndexOutOfBoundsException exception){
+		   System.out.print("");
+	   }
+   }	
 }
 
 
-class componentBox{
+class componentBox extends HBox{
 	
-	private HBox root = new HBox();
-	private Component component;
-	public void initialize() {
-		root.setSpacing(10);
-		Label name = new Label(component.getId());
+	static int i = 1;
+//	private HBox root = new HBox();
+	public void initialize(Component component) {
+		this.setSpacing(10);
+		Label name = new Label(component.getPrefix() + i);
+		i++;
+		component.setId(component.getPrefix() + i);
 		
 		TextField quantity = new TextField();
+		quantity.setPrefSize(250, 20);
 		
 		Label unit = new Label(component.getUnit());
 		
-		root.getChildren().add(name);
-		root.getChildren().add(quantity);
-		root.getChildren().add(unit);
+		this.getChildren().addAll(name,quantity,unit);
 	}
 }
+
+
