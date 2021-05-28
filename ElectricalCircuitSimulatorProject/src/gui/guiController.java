@@ -25,14 +25,12 @@ public class guiController {
     private TableColumn<Component, Complex> colR;
     
     @FXML
-    private ScrollPane waitingPane;
-    
-    @FXML
     private Pane diagramPane;
     
     @FXML
     private VBox contentBox;
-    
+    @FXML
+    private RadioMenuItem btnAC,btnDC;
     @FXML
     private Button btnSerial, btnParralel;
     
@@ -41,7 +39,10 @@ public class guiController {
     
     @FXML
     private Button btnCreateNewCircuit, btnRemove, btnSubmit, btnExit;
-    
+    @FXML
+    private TextField sourceQuantity, frequencyQuantity;
+    @FXML
+    private HBox SourceBox, FrequencyBox;
    private Circuit circuit;
 //    private ParallelCircuit PCircuit;
 //    private SerialCircuit SCircuit;
@@ -53,9 +54,11 @@ public class guiController {
     @FXML
     void btnCreateNewCircuitPressed(ActionEvent event) {
     	circuit.removeAllComponent();
+    	contentBox.getChildren().clear();
     }
    @FXML
     private void initialize() {
+	   
 //    	colID.setCellValueFactory(new 
 //    			PropertyValueFactory<Component, String>("Component"));
 //    	colR.setCellValueFactory(new 
@@ -79,6 +82,16 @@ public class guiController {
 //    		});
     }
    @FXML
+   void btnSourcePressed(ActionEvent event) {
+	   if (btnAC.isSelected()) {
+		   FrequencyBox.setVisible(true);
+	   }else {
+		   FrequencyBox.setVisible(false);
+	   }
+   }
+   
+   
+   @FXML
    	void btnSerrialPressed(ActionEvent event) {
 	   btnSerial.setTextFill(Color.RED);
 	   btnParralel.setTextFill(Color.GREY);
@@ -94,24 +107,33 @@ public class guiController {
    void btnAddRPressed(ActionEvent event) {
 	   componentBox componentBox = new componentBox();
 	   Resistor resistor = new Resistor();
-	componentBox.initialize(resistor);
-	contentBox.getChildren().add(componentBox);
+	   if (contentBox.getChildren().size() >= 5) {
+		}else {
+		componentBox.initialize(resistor);
+		contentBox.getChildren().add(componentBox);
+		}
    }
    
    @FXML
    void btnAddLPressed(ActionEvent event) {
 	   componentBox componentBox = new componentBox();
 	   Inductor inductor = new Inductor();
-	componentBox.initialize(inductor);
-	contentBox.getChildren().add(componentBox);
+		if (contentBox.getChildren().size() >= 5) {
+		}else {
+			componentBox.initialize(inductor);
+			contentBox.getChildren().add(componentBox);
+		}
    }
    
    @FXML
    void btnAddCPressed(ActionEvent event) {
 	   componentBox componentBox = new componentBox();
 	   Capacitor capacitor = new Capacitor();
-	componentBox.initialize(capacitor);
-	contentBox.getChildren().add(componentBox);
+	   if (contentBox.getChildren().size() >= 5) {
+		}else {
+			componentBox.initialize(capacitor);
+			contentBox.getChildren().add(componentBox);
+		}
    }
    
    @FXML
@@ -122,15 +144,16 @@ public class guiController {
 	   } catch(IndexOutOfBoundsException exception){
 		   System.out.print("");
 	   }
-   }	
+   }
+   
 }
-
 
 class componentBox extends HBox{
 	
 	static int i = 1;
 //	private HBox root = new HBox();
 	public void initialize(Component component) {
+		
 		this.setSpacing(10);
 		Label name = new Label(component.getPrefix() + i);
 		i++;
@@ -143,6 +166,7 @@ class componentBox extends HBox{
 		
 		this.getChildren().addAll(name,quantity,unit);
 	}
+	
 }
 
 
