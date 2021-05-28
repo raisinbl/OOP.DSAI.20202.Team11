@@ -152,10 +152,10 @@ public class guiController {
 	   contentBox.getChildren().remove((contentBox.getChildren().size()-1));
 	   componentBox.i -- ;
 	   } catch(IndexOutOfBoundsException exception){
-//		   System.out.print("");
 	   }
    }
-   // Submit 
+   
+   // Submit //////////////////////////////////////////////////////////////
    @FXML
    void btnSubmitPressed(ActionEvent event) {
 	   checkCircuit();
@@ -195,16 +195,20 @@ public class guiController {
 		}
 		this.circuit.addSource(this.source);
 	}
-	private void calculateCircuit() {
+	private void calculateCircuit() throws NullPointerException{
 		// TODO Auto-generated method stub
-		if(circuit instanceof ParallelCircuit) {
-			ParallelCircuit PCircuit = (ParallelCircuit) circuit;
-			PCircuit.calculateV();
-		    PCircuit.calculateI();
-		}else if (circuit instanceof SerialCircuit) {
-			SerialCircuit SCircuit = (SerialCircuit) circuit;
-			SCircuit.calculateV();
-			SCircuit.calculateI();
+		try {
+			if(circuit instanceof ParallelCircuit) {
+				ParallelCircuit PCircuit = (ParallelCircuit) circuit;
+				PCircuit.calculateV();
+			    PCircuit.calculateI();
+			}else if (circuit instanceof SerialCircuit) {
+				SerialCircuit SCircuit = (SerialCircuit) circuit;
+				SCircuit.calculateV();
+				SCircuit.calculateI();
+			}
+		} catch (NullPointerException exception) {
+			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
 		}
 	}
 	
@@ -214,7 +218,7 @@ public class guiController {
 	    alert.setContentText(content);
 	    alert.showAndWait();
 	}
-	private void getComponent() throws NumberFormatException{
+	private void getComponent() throws NumberFormatException,NullPointerException{
 		// TODO Auto-generated method stub
 		
 		for	(Node hbox: contentBox.getChildren()) {
@@ -237,6 +241,8 @@ public class guiController {
 					alert("Found Input Exception", "Please input a quantity for component");
 					circuit.removeAllComponent();
 					componentBox.i = 1;
+			   }catch (NullPointerException exception) {
+				   
 			   }
 		}
 	}
