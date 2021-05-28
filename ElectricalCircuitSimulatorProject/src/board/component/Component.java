@@ -13,6 +13,10 @@ public abstract class Component {
     public void setR(Complex r) {
         this.R = r;
     }
+    
+    public Complex getRComplex() {
+        return R;
+    }
 
     public double getR() {
         return R.abs();

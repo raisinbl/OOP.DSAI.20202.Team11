@@ -172,6 +172,7 @@ public class guiController {
 			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
 		}
 	}
+	
 	private void getSource() {
 		// TODO Auto-generated method stub
 		if ((btnDC.isSelected() == false) && (btnAC.isSelected()== false)){
