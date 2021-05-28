@@ -34,7 +34,6 @@ public abstract class Circuit {
         nComponents--;
     }
 
-
     public Source getSource() {
         return source;
     }
