@@ -43,7 +43,9 @@ public class guiController {
     private TextField sourceQuantity, frequencyQuantity;
     @FXML
     private HBox SourceBox, FrequencyBox;
-   private Circuit circuit;
+    
+    private Circuit circuit;
+    private Source source;
 //    private ParallelCircuit PCircuit;
 //    private SerialCircuit SCircuit;
     
@@ -81,15 +83,6 @@ public class guiController {
 //    			}		
 //    		});
     }
-   @FXML
-   void btnSourcePressed(ActionEvent event) {
-	   if (btnAC.isSelected()) {
-		   FrequencyBox.setVisible(true);
-	   }else {
-		   FrequencyBox.setVisible(false);
-	   }
-   }
-   
    
    @FXML
    	void btnSerrialPressed(ActionEvent event) {
@@ -103,6 +96,20 @@ public class guiController {
 	   btnParralel.setTextFill(Color.RED);
 	   circuit = new ParallelCircuit();
    }
+   
+   @FXML
+   void btnSourcePressed(ActionEvent event) {
+	   if (btnAC.isSelected()) {
+		   FrequencyBox.setVisible(true);
+		   source = new Source();
+	   }else {
+		   FrequencyBox.setVisible(false);
+		   frequencyQuantity.clear();
+		   source = new Source();
+		   source.setF(0);
+	   }
+   }
+   
    @FXML
    void btnAddRPressed(ActionEvent event) {
 	   componentBox componentBox = new componentBox();
@@ -137,15 +144,18 @@ public class guiController {
    }
    
    @FXML
-   void btnRemovePressed(ActionEvent event) {
+   void btnRemovePressed(ActionEvent event) throws Exception {
 	   try {
 	   contentBox.getChildren().remove((contentBox.getChildren().size()-1));
 	   componentBox.i -- ;
 	   } catch(IndexOutOfBoundsException exception){
-		   System.out.print("");
+//		   System.out.print("");
 	   }
    }
-   
+   @FXML
+   void btnSubmitPressed(ActionEvent event) {
+	   
+   }
 }
 
 class componentBox extends HBox{
@@ -166,7 +176,6 @@ class componentBox extends HBox{
 		
 		this.getChildren().addAll(name,quantity,unit);
 	}
-	
 }
 
 
