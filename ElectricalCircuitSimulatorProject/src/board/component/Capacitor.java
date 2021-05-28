@@ -20,7 +20,9 @@ public class Capacitor extends Component {
     public double getC() {
         return C;
     }
-
+    public void setC(double C) {
+    	this.C = C;
+    }
     @Override
     public String toString() {
         return "Capacitor: " + getId() + " | Capacitance: " + getC() + "(F)";

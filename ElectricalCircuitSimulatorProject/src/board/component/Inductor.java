@@ -19,6 +19,9 @@ public class Inductor extends  Component{
     public double getL() {
         return L;
     }
+    public void setL(double L) {
+    	this.L = L;
+    }
 
     @Override
     public String toString() {

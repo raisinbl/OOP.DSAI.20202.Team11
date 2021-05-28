@@ -3,15 +3,21 @@ package gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import board.component.*;
 import board.component.complex.Complex;
 import board.source.Source;
+
+import java.util.Iterator;
+
 import board.*;
 
 public class guiController {
@@ -53,10 +59,10 @@ public class guiController {
     	super();
     	this.circuit = circuit;
     }
+
     @FXML
     void btnCreateNewCircuitPressed(ActionEvent event) {
-    	circuit.removeAllComponent();
-    	contentBox.getChildren().clear();
+    	resetFactory();
     }
    @FXML
     private void initialize() {
@@ -101,12 +107,9 @@ public class guiController {
    void btnSourcePressed(ActionEvent event) {
 	   if (btnAC.isSelected()) {
 		   FrequencyBox.setVisible(true);
-		   source = new Source();
 	   }else {
 		   FrequencyBox.setVisible(false);
 		   frequencyQuantity.clear();
-		   source = new Source();
-		   source.setF(0);
 	   }
    }
    
@@ -152,24 +155,122 @@ public class guiController {
 //		   System.out.print("");
 	   }
    }
+   // Submit 
    @FXML
    void btnSubmitPressed(ActionEvent event) {
-	   
-   }
+	   checkCircuit();
+	   getSource();
+	   getComponent();
+	   calculateCircuit();
+       circuit.displayAnalysis();
+	 }
+	private void checkCircuit() {
+		// TODO Auto-generated method stub
+		if ((circuit instanceof ParallelCircuit)||(circuit instanceof SerialCircuit)) {
+			
+		}else {
+			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
+		}
+	}
+	private void getSource() {
+		// TODO Auto-generated method stub
+		if ((btnDC.isSelected() == false) && (btnAC.isSelected()== false)){
+			alert("Source type missing","Please select type of source");
+		}else	{
+			try {
+				Double source = Double.parseDouble(sourceQuantity.getText());
+				if (btnDC.isSelected()) {
+					this.source = new Source(source,0);
+				}else {
+					try {
+						Double freq = Double.parseDouble(frequencyQuantity.getText());
+						this.source = new Source(source,freq);
+					}catch (NumberFormatException excpetion) {
+						alert("Found input Exception","Please input a quantity for Frequency");
+					}
+				}
+			}catch (NumberFormatException excpetion) {
+				alert("Found input Exception","please input a quantity for Source");
+			}	
+		}
+		this.circuit.addSource(this.source);
+	}
+	private void calculateCircuit() {
+		// TODO Auto-generated method stub
+		if(circuit instanceof ParallelCircuit) {
+			ParallelCircuit PCircuit = (ParallelCircuit) circuit;
+			PCircuit.calculateV();
+		    PCircuit.calculateI();
+		}else if (circuit instanceof SerialCircuit) {
+			SerialCircuit SCircuit = (SerialCircuit) circuit;
+			SCircuit.calculateV();
+			SCircuit.calculateI();
+		}
+	}
+	
+	private void alert (String title, String content) {
+		Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle(title);
+	    alert.setContentText(content);
+	    alert.showAndWait();
+	}
+	private void getComponent() throws NumberFormatException{
+		// TODO Auto-generated method stub
+		
+		for	(Node hbox: contentBox.getChildren()) {
+			   componentBox comp = (componentBox)hbox;
+			   try {
+				   if (comp.component instanceof Resistor) {
+					   Resistor compR = (Resistor) comp.component;
+					   compR.setR(new Complex(Double.parseDouble(comp.quantity.getText()),0));
+					   circuit.addComponent(compR);
+				   }else if (comp.component instanceof Capacitor) {
+					   Capacitor compC = (Capacitor)comp.component;
+					   compC.setC(Double.parseDouble(comp.quantity.getText()));
+					   circuit.addComponent(compC);
+				   }else if (comp.component instanceof Inductor) {
+					   Inductor compI = (Inductor) comp.component;
+					   compI.setL(Double.parseDouble(comp.quantity.getText()));
+					   circuit.addComponent(compI);
+				   }
+			   }catch (NumberFormatException exception){
+					alert("Found Input Exception", "Please input a quantity for component");
+					circuit.removeAllComponent();
+					componentBox.i = 1;
+			   }
+		}
+	}
+	void resetFactory() {
+		//reset component box
+		contentBox.getChildren().clear();
+		componentBox.i = 1;
+		sourceQuantity.clear();
+		frequencyQuantity.clear();
+		//reset circuit
+		btnSerial.setTextFill(Color.BLACK);
+	    btnParralel.setTextFill(Color.BLACK);
+	    circuit = (Circuit)circuit;
+	    circuit.removeAllComponent();
+	    //reset source
+	   	btnAC.setSelected(false);
+	   	btnDC.setSelected(false);
+	}
 }
 
 class componentBox extends HBox{
 	
 	static int i = 1;
+	TextField quantity = new TextField();
+	Component component;
 //	private HBox root = new HBox();
 	public void initialize(Component component) {
-		
+		this.component = component;
 		this.setSpacing(10);
 		Label name = new Label(component.getPrefix() + i);
 		i++;
 		component.setId(component.getPrefix() + i);
 		
-		TextField quantity = new TextField();
+//		TextField quantity = new TextField();
 		quantity.setPrefSize(250, 20);
 		
 		Label unit = new Label(component.getUnit());

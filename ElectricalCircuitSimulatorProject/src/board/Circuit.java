@@ -40,6 +40,7 @@ public abstract class Circuit {
     }
     public void addSource(Source source) {
     	this.source = source;
+    	System.out.println("Source has been added");
     }
     public int getnComponents() {
         return nComponents;
