@@ -277,8 +277,8 @@ public class guiController {
 	   	diagramPane.getChildren().clear();
 	}
 	void createDigram(Circuit circuit) throws Exception {
-		double LayoutX = 0;
-		double LayoutY = 0;
+		double LayoutX = 30;
+		double LayoutY = 30;
 		ObservableList<Component> list = this.circuit.getComponentsList();
 		
 		ImageView imgSrc;
@@ -291,12 +291,15 @@ public class guiController {
 		imgSrc.setFitWidth(35);
 		
 		if(circuit instanceof ParallelCircuit) {	
-			imgSrc.setLayoutX(30);
-			imgSrc.setLayoutY(80);
+			imgSrc.setLayoutX(LayoutX+30);
+			imgSrc.setLayoutY(LayoutY+80);
+			Label sourceInfo = new Label(source.getV() + " V");
+			sourceInfo.setLayoutX(LayoutX+70);
+			sourceInfo.setLayoutY(LayoutY+90);
+			diagramPane.getChildren().addAll(imgSrc,sourceInfo);
 			
 			for (int i = 0; i <= list.size(); i++) {
 				Line lineV = new Line (0,0,100,0);
-
 				lineV.setLayoutX(LayoutX+100*i);
 				lineV.setLayoutY(LayoutY+100);
 				lineV.setRotate(90);
@@ -313,7 +316,7 @@ public class guiController {
 					HBox componentBox = new HBox();
 					VBox componentInfo = new VBox();
 					Label compID = new Label(component.getId());
-					Label compZ = new Label(component.getR() + " (" + component.getUnit() + ")");
+					Label compZ = new Label(component.getR() + " " + component.getUnit() );
 					componentInfo.getChildren().addAll(compID,compZ);
 					
 					if(component instanceof Resistor) {
@@ -329,8 +332,8 @@ public class guiController {
 						imgC.setFitHeight(35);
 						imgC.setFitWidth(15);
 						imgC.setRotate(90);
-						componentBox.setLayoutX(LayoutX+130+100*i);
-						componentBox.setLayoutY(LayoutY+85);
+						componentBox.setLayoutX(LayoutX+140+100*i);
+						componentBox.setLayoutY(LayoutY+80);
 						componentBox.setSpacing(15);
 						componentBox.getChildren().addAll(imgC,componentInfo);
 					}else if(component instanceof Inductor) {
@@ -342,15 +345,71 @@ public class guiController {
 						componentBox.setLayoutY(LayoutY+85);
 						componentBox.getChildren().addAll(imgL,componentInfo);
 					}
-					diagramPane.getChildren().addAll(imgSrc, lineH_up,lineH_down,componentBox);
+					diagramPane.getChildren().addAll(lineH_up,lineH_down,componentBox);
 				}
 				
 				
 			}
 		}else if (circuit instanceof SerialCircuit) {
+			//add source
+			imgSrc.setLayoutX(LayoutX+110*list.size()/2);
+			imgSrc.setLayoutY(LayoutY+128);
+			Label sourceInfo = new Label(source.getV() + " V");
+			sourceInfo.setLayoutX(LayoutX+110*list.size()/2);
+			sourceInfo.setLayoutY(LayoutY+110);
+			diagramPane.getChildren().addAll(imgSrc,sourceInfo);
 			
+			//add two VLine
+			for (int i = 0; i<2; i++) {
+				Line lineV = new Line (0,0,100,0);
+				lineV.setLayoutX(LayoutX+i*100*list.size());
+				lineV.setLayoutY(LayoutY+100);
+				lineV.setRotate(90);
+				diagramPane.getChildren().add(lineV);	
+			}
+			
+			for (int i = 0; i <= list.size(); i++) {
+				Line lineH_up = new Line (0,0,100,0);
+				Line lineH_down = new Line (0,0,100,0);
+				lineH_up.setLayoutX(LayoutX+50+100*i);
+				lineH_up.setLayoutY(LayoutY+50);
+				lineH_down.setLayoutX(LayoutX+50+100*i);
+				lineH_down.setLayoutY(LayoutY+150);
+				if (i<list.size()) {
+					Component component = (Component) list.toArray()[i];
+					VBox componentBox = new VBox();
+					VBox componentInfo = new VBox();
+					Label compID = new Label(component.getId());
+					Label compZ = new Label(component.getR() + " " + component.getUnit());
+					componentInfo.getChildren().addAll(compID,compZ);
+					
+					if(component instanceof Resistor) {
+						ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
+						imgR.setFitHeight(15);
+						imgR.setFitWidth(35);
+						componentBox.getChildren().addAll(componentInfo,imgR);
+						componentBox.setLayoutX(LayoutX+80+100*i);
+						componentBox.setLayoutY(LayoutY+6);
+					}else if(component instanceof Capacitor) {
+						ImageView imgC = new ImageView(new Image(getClass().getResourceAsStream("image/Capacitor.png")));
+						imgC.setFitHeight(35);
+						imgC.setFitWidth(15);
+						componentBox.setLayoutX(LayoutX+80+100*i);
+						componentBox.setLayoutY(LayoutY);
+						componentBox.getChildren().addAll(componentInfo,imgC);
+					}else if(component instanceof Inductor) {
+						ImageView imgL = new ImageView(new Image(getClass().getResourceAsStream("image/Inductor.png")));
+						imgL.setFitHeight(15);
+						imgL.setFitWidth(35);
+						componentBox.setLayoutX(LayoutX+80+100*i);
+						componentBox.setLayoutY(LayoutY+8);
+						componentBox.getChildren().addAll(componentInfo,imgL);
+					}
+					diagramPane.getChildren().addAll(lineH_down,lineH_up,componentBox);
+				}
+				
+			}
 		}
-		
 	}
 }
 
