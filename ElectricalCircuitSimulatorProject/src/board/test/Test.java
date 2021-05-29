@@ -2,6 +2,7 @@ package board.test;
 
 import board.ParallelCircuit;
 import board.component.Capacitor;
+import board.component.Component;
 import board.component.Inductor;
 import board.component.Resistor;
 import board.source.Source;
@@ -59,9 +60,21 @@ public class Test {
         circuit.addComponent(R1);
         circuit.addComponent(L2);
         circuit.addComponent(C3);
-
-        circuit.calculateV();
-        circuit.calculateI();
-        circuit.displayAnalysis();
+        
+		ParallelCircuit circuit1 = new ParallelCircuit();
+		circuit1.addSource(source);
+		for (Component i: circuit.getComponentsList()) {
+			Component component = new Component();
+			component.setId(i.getId().toString());
+			component.setR(i.getRComplex());
+			component.setV(i.getV());
+			component.setI(i.getI());
+			circuit1.addComponent(component);
+//			System.out.println(i.getId());
+		}
+		
+        circuit1.calculateV();
+        circuit1.calculateI();
+        circuit1.displayAnalysis();
     }
 }

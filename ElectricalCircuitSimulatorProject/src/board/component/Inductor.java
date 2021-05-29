@@ -27,4 +27,5 @@ public class Inductor extends  Component{
     public String toString() {
         return "Inductor: " + getId() + " | Inductance: " + getL() + "(H)";
     }
+	
 }

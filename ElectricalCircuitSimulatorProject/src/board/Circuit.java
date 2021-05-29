@@ -5,14 +5,11 @@ import board.source.Source;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public abstract class Circuit {
+public class Circuit {
     private Source source;
     private static final int MAX_COMPONENTS = 5;
     private int nComponents = 0;
     private ObservableList<Component> componentsList = FXCollections.observableArrayList();
-    public Circuit() {
-        super();
-    }
 
     public void addComponent(Component component) {
         if (nComponents >= MAX_COMPONENTS) {
@@ -27,8 +24,9 @@ public abstract class Circuit {
         }
     }
     public void removeAllComponent() {
-    	componentsList = null;
-    }
+    	componentsList.removeAll(componentsList);
+    	}
+
     public void removeComponent() {
         System.out.println(componentsList.remove(componentsList.size() - 1).getId() + " has been removed from the circuit.");
         nComponents--;

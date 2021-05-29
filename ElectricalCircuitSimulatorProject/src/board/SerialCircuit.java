@@ -4,7 +4,7 @@ import board.component.Component;
 import board.component.complex.Complex;
 
 public class SerialCircuit extends Circuit implements Calculator{
-    public double calculateZ() {
+    public Double calculateZ() {
         Complex Z = new Complex(0, 0);
         for (Component component: getComponentsList()) {
             Z = Z.plus(component.getRComplex());
@@ -14,8 +14,8 @@ public class SerialCircuit extends Circuit implements Calculator{
 
     @Override
     public void calculateI() {
-        double Z = calculateZ();
-        double I;
+//        double Z = calculateZ();
+//        double I;
         if (checkShortCircuit()) {
             for (Component component: getComponentsList()) {
                 component.setI(Double.POSITIVE_INFINITY);

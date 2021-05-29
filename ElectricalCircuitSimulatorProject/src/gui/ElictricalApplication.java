@@ -46,7 +46,6 @@ public class ElictricalApplication extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-        ParallelCircuit circuit = new ParallelCircuit();
-		new ElictricalApplication(circuit);
+		new ElictricalApplication(new Circuit());
 	}
 }

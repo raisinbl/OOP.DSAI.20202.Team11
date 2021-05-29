@@ -1,6 +1,5 @@
 package gui;
 
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -10,12 +9,18 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import board.component.*;
 import board.component.complex.Complex;
 import board.source.Source;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 
 import board.*;
@@ -67,27 +72,7 @@ public class guiController {
    @FXML
     private void initialize() {
 	   
-//    	colID.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, String>("Component"));
-//    	colR.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Complex>("R (Ω)"));
-//    	colU.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("U (V)"));
-//    	colI.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("I (A)"));
-//    	tbCircuitAnalysis.setItems(this.circuit.getComponentsList());
-//    	
-//    	tbCircuitAnalysis.getSelectionModel().selectedItemProperty().addListener(
-//    			(ChangeListener<? super Component>) new ChangeListener<Component>() {
-//
-//					@Override
-//					public void changed(ObservableValue<? extends Component> observable, Component oldValue, Component newValue) {
-//						// TODO Auto-generated method stub
-//						if(newValue != null) {
-//    						
-//					}	
-//    			}		
-//    		});
+
     }
    
    @FXML
@@ -149,26 +134,64 @@ public class guiController {
    @FXML
    void btnRemovePressed(ActionEvent event) throws Exception {
 	   try {
-	   contentBox.getChildren().remove((contentBox.getChildren().size()-1));
-	   componentBox.i -- ;
+		   contentBox.getChildren().remove((contentBox.getChildren().size()-1));
+		   if(componentBox.i >0) {
+			   componentBox.i -- ; 
+			   circuit.removeComponent();
+		   }
 	   } catch(IndexOutOfBoundsException exception){
 	   }
    }
    
    // Submit //////////////////////////////////////////////////////////////
    @FXML
-   void btnSubmitPressed(ActionEvent event) {
+   void btnSubmitPressed(ActionEvent event) throws Exception{
+//	   circuit.removeAllComponent();
+	   componentBox.i = 0;
 	   checkCircuit();
 	   getSource();
 	   getComponent();
 	   calculateCircuit();
-       circuit.displayAnalysis();
+	   try {
+		   circuit.displayAnalysis();
+	   } catch (NullPointerException exception) {}
+	  
+	   getData();
+	   createDigram(circuit);
 	 }
+	private void getData() {
+//	// TODO Auto-generated method stub
+//		ParallelCircuit circuit = new ParallelCircuit();
+//		circuit.addSource(source);
+//		for (Component i: this.	circuit.getComponentsList()) {
+//			Component component = new Component();
+//			component.setId(i.getId());
+//			component.setR(i.getRComplex());
+//			component.setV(i.getV());
+//			component.setI(i.getI());
+//			component.setPrefix(i.getPrefix());
+//			circuit.addComponent(component);
+//		}
+    	colID.setCellValueFactory(new 
+    			PropertyValueFactory<Component, String>("id"));
+//    	colR.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Complex>("R"));
+//    	colU.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Double>("v"));
+//    	colI.setCellValueFactory(new 
+//    			PropertyValueFactory<Component, Double>("I"));
+    	tbCircuitAnalysis.setItems(circuit.getComponentsList());
+	}
+	private void alert (String title, String content) {
+		Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle(title);
+	    alert.setContentText(content);
+	    alert.showAndWait();
+	}
+	
 	private void checkCircuit() {
 		// TODO Auto-generated method stub
-		if ((circuit instanceof ParallelCircuit)||(circuit instanceof SerialCircuit)) {
-			
-		}else {
+		if (!(circuit instanceof ParallelCircuit)&& !(circuit instanceof SerialCircuit)) {
 			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
 		}
 	}
@@ -184,7 +207,7 @@ public class guiController {
 					this.source = new Source(source,0);
 				}else {
 					try {
-						Double freq = Double.parseDouble(frequencyQuantity.getText());
+						Double freq = Double.parseDouble(frequencyQuantity.getText());						
 						this.source = new Source(source,freq);
 					}catch (NumberFormatException excpetion) {
 						alert("Found input Exception","Please input a quantity for Frequency");
@@ -201,56 +224,54 @@ public class guiController {
 		try {
 			if(circuit instanceof ParallelCircuit) {
 				ParallelCircuit PCircuit = (ParallelCircuit) circuit;
+				PCircuit.calculateI();
 				PCircuit.calculateV();
-			    PCircuit.calculateI();
 			}else if (circuit instanceof SerialCircuit) {
 				SerialCircuit SCircuit = (SerialCircuit) circuit;
-				SCircuit.calculateV();
 				SCircuit.calculateI();
+				SCircuit.calculateV();
 			}
 		} catch (NullPointerException exception) {
-			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
+//			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
 		}
 	}
 	
-	private void alert (String title, String content) {
-		Alert alert = new Alert(AlertType.WARNING);
-	    alert.setTitle(title);
-	    alert.setContentText(content);
-	    alert.showAndWait();
-	}
+	
 	private void getComponent() throws NumberFormatException,NullPointerException{
 		// TODO Auto-generated method stub
-		
+		try {
 		for	(Node hbox: contentBox.getChildren()) {
 			   componentBox comp = (componentBox)hbox;
-			   try {
+			   
 				   if (comp.component instanceof Resistor) {
 					   Resistor compR = (Resistor) comp.component;
 					   compR.setR(new Complex(Double.parseDouble(comp.quantity.getText()),0));
 					   circuit.addComponent(compR);
+					   
 				   }else if (comp.component instanceof Capacitor) {
 					   Capacitor compC = (Capacitor)comp.component;
 					   compC.setC(Double.parseDouble(comp.quantity.getText()));
+					   compC = new Capacitor(compC.getC(), source.getF());
 					   circuit.addComponent(compC);
+					   
 				   }else if (comp.component instanceof Inductor) {
 					   Inductor compI = (Inductor) comp.component;
 					   compI.setL(Double.parseDouble(comp.quantity.getText()));
+					   compI = new Inductor(compI.getL(), source.getF());
 					   circuit.addComponent(compI);
 				   }
-			   }catch (NumberFormatException exception){
+			   }
+			}catch (NumberFormatException exception){
 					alert("Found Input Exception", "Please input a quantity for component");
-					circuit.removeAllComponent();
-					componentBox.i = 1;
+							
 			   }catch (NullPointerException exception) {
 				   
 			   }
-		}
 	}
 	void resetFactory() {
 		//reset component box
 		contentBox.getChildren().clear();
-		componentBox.i = 1;
+		componentBox.i = 0;
 		sourceQuantity.clear();
 		frequencyQuantity.clear();
 		//reset circuit
@@ -261,20 +282,104 @@ public class guiController {
 	    //reset source
 	   	btnAC.setSelected(false);
 	   	btnDC.setSelected(false);
+	   	diagramPane.getChildren().clear();
+	}
+	void createDigram(Circuit circuit) throws Exception {
+		double LayoutX = 0;
+		double LayoutY = 0;
+		ObservableList<Component> list = this.circuit.getComponentsList();
+		ImageView imgAC = new ImageView(new Image(getClass().getResourceAsStream("image/AC.png")));
+		imgAC.setFitHeight(35);
+		imgAC.setFitWidth(35);
+		
+		ImageView imgDC = new ImageView(new Image(getClass().getResourceAsStream("image/DC.png")));
+		imgDC.setFitHeight(35);
+		imgDC.setFitWidth(35);
+		
+		ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
+		imgR.setFitHeight(35);
+		imgR.setFitWidth(15);
+		
+		ImageView imgL = new ImageView(new Image(getClass().getResourceAsStream("image/Inductor.png")));
+		imgR.setFitHeight(35);
+		imgR.setFitWidth(15);
+		
+		ImageView imgC = new ImageView(new Image(getClass().getResourceAsStream("image/Capacitor.png")));
+		imgR.setFitHeight(15);
+		imgR.setFitWidth(35);
+		
+		if(circuit instanceof ParallelCircuit) {
+			ImageView imgSrc;
+			if (source.getF() == 0) {
+				imgSrc = imgDC;
+				imgSrc.setLayoutX(30);
+				imgSrc.setLayoutY(80);
+			}else {
+				imgSrc = imgAC;
+				imgSrc.setLayoutX(30);
+				imgSrc.setLayoutY(80);
+			}
+			imgR.setRotate(90);
+			imgC.setRotate(90);
+			imgL.setRotate(90);
+			diagramPane.getChildren().add(imgSrc);
+			for (int i = 0; i <= list.size(); i++) {
+				Line lineV = new Line (0,0,100,0);
+
+				lineV.setLayoutX(LayoutX+100*i);
+				lineV.setLayoutY(LayoutY+100);
+				lineV.setRotate(90);
+				diagramPane.getChildren().add(lineV);
+				if (i< list.size()) {
+					Line lineH_up = new Line (0,0,100,0);
+					Line lineH_down = new Line (0,0,100,0);
+					lineH_up.setLayoutX(LayoutX+50+100*i);
+					lineH_up.setLayoutY(LayoutY+50);
+					lineH_down.setLayoutX(LayoutX+50+100*i);
+					lineH_down.setLayoutY(LayoutY+150);
+					
+					Component component = (Component) list.toArray()[i];
+					HBox componentBox = new HBox();
+					VBox componentInfo = new VBox();
+					Label compID = new Label(component.getId());
+					Label compZ = new Label(component.getR() + " (" + component.getUnit() + ")");
+					componentInfo.getChildren().addAll(compID,compZ);
+					
+					if(component instanceof Resistor) {
+						ImageView img = new ImageView();
+						img = imgR;
+						componentBox.getChildren().addAll(img,componentInfo);
+						componentBox.setLayoutX(LayoutX+30+50*i);
+						componentBox.setLayoutY(LayoutY+85);
+						diagramPane.getChildren().add(componentBox);
+					}else if(component instanceof Capacitor) {
+						componentBox.getChildren().addAll(imgC,componentInfo);
+					}else if(component instanceof Inductor) {
+						componentBox.getChildren().addAll(imgL,componentInfo);
+					}
+					diagramPane.getChildren().addAll(lineH_up,lineH_down);
+				}
+				
+				
+			}
+		}
+		
 	}
 }
 
+
 class componentBox extends HBox{
 	
-	static int i = 1;
+	static int i = 0;
 	TextField quantity = new TextField();
 	Component component;
 //	private HBox root = new HBox();
 	public void initialize(Component component) {
 		this.component = component;
 		this.setSpacing(10);
-		Label name = new Label(component.getPrefix() + i);
 		i++;
+		Label name = new Label(component.getPrefix() + i);
+		
 		component.setId(component.getPrefix() + i);
 		
 //		TextField quantity = new TextField();
@@ -285,5 +390,7 @@ class componentBox extends HBox{
 		this.getChildren().addAll(name,quantity,unit);
 	}
 }
+
+
 
 

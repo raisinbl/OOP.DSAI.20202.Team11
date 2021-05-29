@@ -2,14 +2,22 @@ package board.component;
 
 import board.component.complex.Complex;
 
-public abstract class Component {
+public class Component {
 	private String id;
 	private Complex R;
-	private double I;
-	private double V;
+	private double i;
+	private double v;
 	private String prefix;
     private String unit;
-
+//    public Component() {
+//    	
+//    }
+//    public Component(String id, Complex R, double I, double V) {
+//    	this.id = id;
+//    	this.R = R;
+//    	this.I = I;
+//    	this.V = V;
+//    }
     public void setR(Complex r) {
         this.R = r;
     }
@@ -23,19 +31,19 @@ public abstract class Component {
     }
 
     public double getI() {
-        return I;
+        return i;
     }
 
     public void setI(double i) {
-        this.I = i;
+        this.i = i;
     }
 
     public double getV() {
-        return V;
+        return v;
     }
 
     public void setV(double v) {
-        this.V = v;
+        this.v = v;
     }
 
     public String getId() {
