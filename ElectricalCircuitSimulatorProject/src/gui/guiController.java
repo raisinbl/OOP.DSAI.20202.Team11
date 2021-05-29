@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -32,7 +33,9 @@ public class guiController {
     
     @FXML
     private TableColumn<Component, String> colID;
+    @FXML
     private TableColumn<Component, Double> colI, colU;
+    @FXML	
     private TableColumn<Component, Complex> colR;
     
     @FXML
@@ -160,26 +163,15 @@ public class guiController {
 	   createDigram(circuit);
 	 }
 	private void getData() {
-//	// TODO Auto-generated method stub
-//		ParallelCircuit circuit = new ParallelCircuit();
-//		circuit.addSource(source);
-//		for (Component i: this.	circuit.getComponentsList()) {
-//			Component component = new Component();
-//			component.setId(i.getId());
-//			component.setR(i.getRComplex());
-//			component.setV(i.getV());
-//			component.setI(i.getI());
-//			component.setPrefix(i.getPrefix());
-//			circuit.addComponent(component);
-//		}
+	// TODO Auto-generated method stub
     	colID.setCellValueFactory(new 
     			PropertyValueFactory<Component, String>("id"));
-//    	colR.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Complex>("R"));
-//    	colU.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("v"));
-//    	colI.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("I"));
+    	colR.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Complex>("R"));
+    	colU.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Double>("v"));
+    	colI.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Double>("I"));
     	tbCircuitAnalysis.setItems(circuit.getComponentsList());
 	}
 	private void alert (String title, String content) {
@@ -288,41 +280,20 @@ public class guiController {
 		double LayoutX = 0;
 		double LayoutY = 0;
 		ObservableList<Component> list = this.circuit.getComponentsList();
-		ImageView imgAC = new ImageView(new Image(getClass().getResourceAsStream("image/AC.png")));
-		imgAC.setFitHeight(35);
-		imgAC.setFitWidth(35);
 		
-		ImageView imgDC = new ImageView(new Image(getClass().getResourceAsStream("image/DC.png")));
-		imgDC.setFitHeight(35);
-		imgDC.setFitWidth(35);
+		ImageView imgSrc;
+		if (source.getF() == 0) {
+			imgSrc = new ImageView(new Image(getClass().getResourceAsStream("image/DC.png")));;		
+		}else {
+			imgSrc = new ImageView(new Image(getClass().getResourceAsStream("image/AC.png")));;
+		}
+		imgSrc.setFitHeight(35);
+		imgSrc.setFitWidth(35);
 		
-		ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
-		imgR.setFitHeight(35);
-		imgR.setFitWidth(15);
-		
-		ImageView imgL = new ImageView(new Image(getClass().getResourceAsStream("image/Inductor.png")));
-		imgR.setFitHeight(35);
-		imgR.setFitWidth(15);
-		
-		ImageView imgC = new ImageView(new Image(getClass().getResourceAsStream("image/Capacitor.png")));
-		imgR.setFitHeight(15);
-		imgR.setFitWidth(35);
-		
-		if(circuit instanceof ParallelCircuit) {
-			ImageView imgSrc;
-			if (source.getF() == 0) {
-				imgSrc = imgDC;
-				imgSrc.setLayoutX(30);
-				imgSrc.setLayoutY(80);
-			}else {
-				imgSrc = imgAC;
-				imgSrc.setLayoutX(30);
-				imgSrc.setLayoutY(80);
-			}
-			imgR.setRotate(90);
-			imgC.setRotate(90);
-			imgL.setRotate(90);
-			diagramPane.getChildren().add(imgSrc);
+		if(circuit instanceof ParallelCircuit) {	
+			imgSrc.setLayoutX(30);
+			imgSrc.setLayoutY(80);
+			
 			for (int i = 0; i <= list.size(); i++) {
 				Line lineV = new Line (0,0,100,0);
 
@@ -346,22 +317,38 @@ public class guiController {
 					componentInfo.getChildren().addAll(compID,compZ);
 					
 					if(component instanceof Resistor) {
-						ImageView img = new ImageView();
-						img = imgR;
-						componentBox.getChildren().addAll(img,componentInfo);
-						componentBox.setLayoutX(LayoutX+30+50*i);
+						ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
+						imgR.setFitHeight(15);
+						imgR.setFitWidth(35);
+						imgR.setRotate(90);
+						componentBox.getChildren().addAll(imgR,componentInfo);
+						componentBox.setLayoutX(LayoutX+130+100*i);
 						componentBox.setLayoutY(LayoutY+85);
-						diagramPane.getChildren().add(componentBox);
 					}else if(component instanceof Capacitor) {
+						ImageView imgC = new ImageView(new Image(getClass().getResourceAsStream("image/Capacitor.png")));
+						imgC.setFitHeight(35);
+						imgC.setFitWidth(15);
+						imgC.setRotate(90);
+						componentBox.setLayoutX(LayoutX+130+100*i);
+						componentBox.setLayoutY(LayoutY+85);
+						componentBox.setSpacing(15);
 						componentBox.getChildren().addAll(imgC,componentInfo);
 					}else if(component instanceof Inductor) {
+						ImageView imgL = new ImageView(new Image(getClass().getResourceAsStream("image/Inductor.png")));
+						imgL.setFitHeight(15);
+						imgL.setFitWidth(35);
+						imgL.setRotate(90);
+						componentBox.setLayoutX(LayoutX+130+100*i);
+						componentBox.setLayoutY(LayoutY+85);
 						componentBox.getChildren().addAll(imgL,componentInfo);
 					}
-					diagramPane.getChildren().addAll(lineH_up,lineH_down);
+					diagramPane.getChildren().addAll(imgSrc, lineH_up,lineH_down,componentBox);
 				}
 				
 				
 			}
+		}else if (circuit instanceof SerialCircuit) {
+			
 		}
 		
 	}
