@@ -1,7 +1,5 @@
 package gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +15,6 @@ import javafx.scene.shape.Line;
 import board.component.*;
 import board.component.complex.Complex;
 import board.source.Source;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.util.Iterator;
 
 import board.*;
 
@@ -215,8 +208,8 @@ public class guiController {
 		try {
 			if(circuit instanceof ParallelCircuit) {
 				ParallelCircuit PCircuit = (ParallelCircuit) circuit;
-				PCircuit.calculateI();
 				PCircuit.calculateV();
+				PCircuit.calculateI();
 			}else if (circuit instanceof SerialCircuit) {
 				SerialCircuit SCircuit = (SerialCircuit) circuit;
 				SCircuit.calculateI();
