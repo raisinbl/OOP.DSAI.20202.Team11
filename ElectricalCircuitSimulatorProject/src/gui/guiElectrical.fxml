@@ -13,7 +13,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
   <items>
     <AnchorPane>
          <children>
@@ -36,11 +36,11 @@
                      <children>
                         <Button fx:id="btnSerial" mnemonicParsing="false" onAction="#btnSerrialPressed" prefHeight="25.0" prefWidth="190.0" text="Serial">
                            <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
+                              <Insets left="35.0" right="5.0" />
                            </HBox.margin></Button>
                         <Button fx:id="btnParralel" mnemonicParsing="false" onAction="#btnParrallelPressed" prefHeight="25.0" prefWidth="204.0" text="Parralel">
                            <HBox.margin>
-                              <Insets left="100.0" />
+                              <Insets left="200.0" />
                            </HBox.margin></Button>
                      </children>
                   </HBox>
@@ -49,7 +49,7 @@
                         <Font size="14.0" />
                      </font>
                      <padding>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="20.0" top="5.0" />
                      </padding></Label>
                   <HBox focusTraversable="true" prefHeight="35.0" prefWidth="508.0">
                      <children>
@@ -62,8 +62,11 @@
                               </RadioMenuItem>
                               <RadioMenuItem fx:id="btnDC" mnemonicParsing="false" onAction="#btnSourcePressed" text="DC" toggleGroup="$source" />
                            </items>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </MenuButton>
-                        <HBox fx:id="SourceBox">
+                        <HBox fx:id="SourceBox" focusTraversable="true">
                            <children>
                               <Label prefHeight="17.0" prefWidth="57.0" text="Source" textAlignment="JUSTIFY">
                                  <HBox.margin>
@@ -84,7 +87,7 @@
                               <Insets left="20.0" right="10.0" />
                            </HBox.margin>
                         </HBox>
-                        <HBox fx:id="FrequencyBox" visible="false">
+                        <HBox fx:id="FrequencyBox" focusTraversable="true" prefHeight="35.0" prefWidth="203.0" visible="false">
                            <children>
                               <Label prefHeight="17.0" prefWidth="63.0" text="Frequency" />
                               <TextField fx:id="frequencyQuantity" prefHeight="25.0" prefWidth="103.0">
@@ -100,9 +103,9 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <ScrollPane fx:id="componentPane" prefHeight="266.0" prefWidth="508.0">
+                  <ScrollPane fx:id="componentPane" fitToHeight="true" fitToWidth="true" maxHeight="350.0" maxWidth="750.0" prefHeight="266.0" prefWidth="508.0">
                      <content>
-                        <VBox fx:id="contentBox" maxWidth="1.7976931348623157E308" spacing="10.0">
+                        <VBox fx:id="contentBox" maxWidth="500.0" spacing="10.0">
                            <opaqueInsets>
                               <Insets bottom="20.0" />
                            </opaqueInsets>
@@ -111,13 +114,22 @@
                            </padding>
                         </VBox>
                      </content>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </padding>
                   </ScrollPane>
                   <Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="39.0" text="Choose your components: (maximum 5)">
                      <font>
                         <Font size="14.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
                   </Label>
-                  <GridPane alignment="CENTER" focusTraversable="true">
+                  <GridPane alignment="CENTER" focusTraversable="true" prefHeight="120.0" prefWidth="350.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -128,27 +140,34 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="btnAddR" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddRPressed" style="-fx-background-color: red;" text="Add a Resistor">
+                        <Button fx:id="btnAddR" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddRPressed" style="-fx-background-color: red;" text="Add a Resistor" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" right="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnAddC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddCPressed" style="-fx-background-color: green;" text="Add a Capacitor" GridPane.rowIndex="1">
+                        <Button fx:id="btnAddC" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddCPressed" style="-fx-background-color: green;" text="Add a Capacitor" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnRemove" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove Component" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Button fx:id="btnRemove" maxHeight="80.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove Component" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="btnAddL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAddLPressed" style="-fx-background-color: blue;" text="Add a Inductor" GridPane.rowIndex="2">
+                        <Button fx:id="btnAddL" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddLPressed" style="-fx-background-color: blue;" text="Add a Inductor" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                            <GridPane.margin>
                               <Insets right="5.0" top="5.0" />
                            </GridPane.margin></Button>
                      </children>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
                   </GridPane>
+                  <Button fx:id="btnSubmit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnSubmitPressed" prefHeight="46.0" prefWidth="138.0" text="Submit" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="250.0" right="50.0" top="30.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
-            <Button fx:id="btnSubmit" alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnSubmitPressed" prefHeight="39.0" prefWidth="71.0" text="Submit" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0">
          <children>
@@ -170,7 +189,7 @@
                   </TableView>
                   <Pane fx:id="diagramPane" prefHeight="285.0" prefWidth="498.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="196.0" layoutY="14.0" text="BOOM!! Your Board">
+                        <Label alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="220.0" layoutY="14.0" text="BOOM!! Your Board">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
@@ -187,8 +206,12 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Button fx:id="btnCreateNewCircuit" mnemonicParsing="false" onAction="#btnCreateNewCircuitPressed" text="Create a new circuit" />
-                  <Button fx:id="btnExit" mnemonicParsing="false" text="Exit" />
+                  <HBox alignment="CENTER" spacing="100.0">
+                     <children>
+                        <Button fx:id="btnCreateNewCircuit" mnemonicParsing="false" onAction="#btnCreateNewCircuitPressed" prefHeight="46.0" prefWidth="120.0" text="Create a new circuit" />
+                        <Button fx:id="btnExit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnExitPressed" prefHeight="38.0" prefWidth="59.0" text="Exit" />
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets left="10.0" />

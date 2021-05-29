@@ -1,7 +1,6 @@
 package board;
 
 import board.component.Component;
-import board.source.Source;
 
 public class ParallelCircuit extends Circuit implements Calculator{
 	public ParallelCircuit() {
@@ -12,7 +11,7 @@ public class ParallelCircuit extends Circuit implements Calculator{
     public void calculateI() {
         if (!checkShortCircuit()) {
             for (Component component: getComponentsList()) {
-                component.setI(getSource().getV() / component.getR());
+                component.setI(Math.round(getSource().getV() / component.getR() * 100.00) / 100.00);
             }
         }
         else {
@@ -30,7 +29,7 @@ public class ParallelCircuit extends Circuit implements Calculator{
     @Override
     public void calculateV() {
         for (Component component: getComponentsList()) {
-            component.setV(getSource().getV());
+            component.setV(Math.round(getSource().getV()*100)/100);
         }
     }
 

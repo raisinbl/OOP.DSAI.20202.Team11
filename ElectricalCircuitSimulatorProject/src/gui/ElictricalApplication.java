@@ -2,21 +2,18 @@ package gui;
 
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import board.Circuit;
-import board.ParallelCircuit;
-import board.component.Capacitor;
-import board.component.Inductor;
-import board.component.Resistor;
-import board.source.Source;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 public class ElictricalApplication extends JFrame{
 	private Circuit circuit;
+	
 	public ElictricalApplication(Circuit circuit) {
 		super();
 		this.circuit = circuit;
@@ -24,7 +21,7 @@ public class ElictricalApplication extends JFrame{
 		JFXPanel fxPanel = new JFXPanel();
 		this.add(fxPanel);
 		this.setSize(1024,720);
-		this.setTitle("Circuit demo");
+		this.setTitle("Demo");
 		this.setVisible(true);
 		Platform.runLater(new Runnable(){
 			@Override
@@ -46,6 +43,6 @@ public class ElictricalApplication extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		new ElictricalApplication(new Circuit());
+		new ElictricalApplication(new Circuit()); 
 	}
 }

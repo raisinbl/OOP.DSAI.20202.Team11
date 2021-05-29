@@ -1,28 +1,27 @@
 package gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import board.component.*;
 import board.component.complex.Complex;
 import board.source.Source;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.util.Iterator;
+import java.io.Closeable;
+
+import com.sun.javafx.stage.EmbeddedWindow;
 
 import board.*;
 
@@ -35,6 +34,7 @@ public class guiController {
     private TableColumn<Component, String> colID;
     @FXML
     private TableColumn<Component, Double> colI, colU;
+
     @FXML	
     private TableColumn<Component, Complex> colR;
     
@@ -67,15 +67,13 @@ public class guiController {
     	super();
     	this.circuit = circuit;
     }
-
+    @FXML
+    void initialize() {
+    	
+    }
     @FXML
     void btnCreateNewCircuitPressed(ActionEvent event) {
     	resetFactory();
-    }
-   @FXML
-    private void initialize() {
-	   
-
     }
    
    @FXML
@@ -133,7 +131,20 @@ public class guiController {
 			contentBox.getChildren().add(componentBox);
 		}
    }
-   
+   @FXML
+   void btnExitPressed(ActionEvent event) throws Exception{
+	   btnExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent event) {
+			// TODO Auto-generated method stub
+			EmbeddedWindow stage = (EmbeddedWindow) btnExit.getScene().getWindow();
+		    // do what you have to do
+		    stage.getOnCloseRequest();
+		}
+		   
+	   });
+   }
    @FXML
    void btnRemovePressed(ActionEvent event) throws Exception {
 	   try {
@@ -149,27 +160,29 @@ public class guiController {
    // Submit //////////////////////////////////////////////////////////////
    @FXML
    void btnSubmitPressed(ActionEvent event) throws Exception{
-//	   circuit.removeAllComponent();
+	   try {
+	   circuit.resetNComponents();
 	   componentBox.i = 0;
 	   checkCircuit();
 	   getSource();
 	   getComponent();
 	   calculateCircuit();
-	   try {
-		   circuit.displayAnalysis();
-	   } catch (NullPointerException exception) {}
+	   circuit.displayAnalysis();
+	   } catch (NullPointerException exception) {
+		   System.out.println("");
+	   }
 	  
 	   getData();
 	   createDigram(circuit);
 	 }
 	private void getData() {
-	// TODO Auto-generated method stub
+
     	colID.setCellValueFactory(new 
     			PropertyValueFactory<Component, String>("id"));
     	colR.setCellValueFactory(new 
     			PropertyValueFactory<Component, Complex>("R"));
     	colU.setCellValueFactory(new 
-    			PropertyValueFactory<Component, Double>("v"));
+    			PropertyValueFactory<Component, Double>("V"));
     	colI.setCellValueFactory(new 
     			PropertyValueFactory<Component, Double>("I"));
     	tbCircuitAnalysis.setItems(circuit.getComponentsList());
@@ -188,7 +201,7 @@ public class guiController {
 		}
 	}
 	
-	private void getSource() {
+	private void getSource() throws NullPointerException{
 		// TODO Auto-generated method stub
 		if ((btnDC.isSelected() == false) && (btnAC.isSelected()== false)){
 			alert("Source type missing","Please select type of source");
@@ -203,6 +216,8 @@ public class guiController {
 						this.source = new Source(source,freq);
 					}catch (NumberFormatException excpetion) {
 						alert("Found input Exception","Please input a quantity for Frequency");
+					}catch (NullPointerException exception)	{
+						alert("Found input Exception","Please input a quantity for Frequency");
 					}
 				}
 			}catch (NumberFormatException excpetion) {
@@ -211,17 +226,38 @@ public class guiController {
 		}
 		this.circuit.addSource(this.source);
 	}
+	private void checkShortCircuit() {
+		ImageView img = new 
+				ImageView(new Image(getClass().getResourceAsStream("image/AC.png")));
+		img.setFitHeight(100);
+		img.setFitWidth(60);
+		diagramPane.getChildren().add(img);
+		img.setVisible(true);
+		img.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent event) {
+				img.setVisible(false);
+			}
+		});
+		alert("Your circuit is a short circuit!!", "Be careful!! Try not to keep your smile last forever <3 ");
+	}
 	private void calculateCircuit() throws NullPointerException{
 		// TODO Auto-generated method stub
 		try {
 			if(circuit instanceof ParallelCircuit) {
 				ParallelCircuit PCircuit = (ParallelCircuit) circuit;
-				PCircuit.calculateI();
 				PCircuit.calculateV();
+				PCircuit.calculateI();
+				if( PCircuit.checkShortCircuit()) {
+					checkShortCircuit();
+				}
 			}else if (circuit instanceof SerialCircuit) {
 				SerialCircuit SCircuit = (SerialCircuit) circuit;
 				SCircuit.calculateI();
 				SCircuit.calculateV();
+				if( SCircuit.checkShortCircuit()) {
+					checkShortCircuit();
+				}
 			}
 		} catch (NullPointerException exception) {
 //			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
@@ -277,6 +313,7 @@ public class guiController {
 	   	diagramPane.getChildren().clear();
 	}
 	void createDigram(Circuit circuit) throws Exception {
+		try {
 		double LayoutX = 30;
 		double LayoutY = 30;
 		ObservableList<Component> list = this.circuit.getComponentsList();
@@ -410,6 +447,10 @@ public class guiController {
 				
 			}
 		}
+		}catch(NullPointerException exception) {
+			
+		}
+		
 	}
 }
 
