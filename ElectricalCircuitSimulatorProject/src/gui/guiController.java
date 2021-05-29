@@ -32,7 +32,9 @@ public class guiController {
     
     @FXML
     private TableColumn<Component, String> colID;
+    @FXML
     private TableColumn<Component, Double> colI, colU;
+    @FXML
     private TableColumn<Component, Complex> colR;
     
     @FXML
@@ -146,7 +148,8 @@ public class guiController {
    // Submit //////////////////////////////////////////////////////////////
    @FXML
    void btnSubmitPressed(ActionEvent event) throws Exception{
-//	   circuit.removeAllComponent();
+	   circuit.removeAllComponent();
+	   circuit.resetNComponents();
 	   componentBox.i = 0;
 	   checkCircuit();
 	   getSource();
@@ -160,26 +163,14 @@ public class guiController {
 	   createDigram(circuit);
 	 }
 	private void getData() {
-//	// TODO Auto-generated method stub
-//		ParallelCircuit circuit = new ParallelCircuit();
-//		circuit.addSource(source);
-//		for (Component i: this.	circuit.getComponentsList()) {
-//			Component component = new Component();
-//			component.setId(i.getId());
-//			component.setR(i.getRComplex());
-//			component.setV(i.getV());
-//			component.setI(i.getI());
-//			component.setPrefix(i.getPrefix());
-//			circuit.addComponent(component);
-//		}
     	colID.setCellValueFactory(new 
     			PropertyValueFactory<Component, String>("id"));
-//    	colR.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Complex>("R"));
-//    	colU.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("v"));
-//    	colI.setCellValueFactory(new 
-//    			PropertyValueFactory<Component, Double>("I"));
+    	colR.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Complex>("R"));
+    	colU.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Double>("V"));
+    	colI.setCellValueFactory(new 
+    			PropertyValueFactory<Component, Double>("I"));
     	tbCircuitAnalysis.setItems(circuit.getComponentsList());
 	}
 	private void alert (String title, String content) {

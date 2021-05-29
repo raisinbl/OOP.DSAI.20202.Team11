@@ -31,7 +31,11 @@ public class Circuit {
         System.out.println(componentsList.remove(componentsList.size() - 1).getId() + " has been removed from the circuit.");
         nComponents--;
     }
-
+    
+    public void resetNComponents() {
+    	nComponents = 0;
+    }
+    
     public Source getSource() {
         return source;
     }
