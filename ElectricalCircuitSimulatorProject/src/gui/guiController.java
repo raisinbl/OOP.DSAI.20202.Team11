@@ -155,6 +155,7 @@ public class guiController {
 	   try {
 	   circuit.removeAllComponent();
 	   circuit.resetNComponents();
+	   source = null;
 	   diagramPane.getChildren().clear();
 //	   componentBox.i = 0;
 	   checkCircuit();
@@ -167,6 +168,7 @@ public class guiController {
 	   } catch (Exception exception) {
 		   circuit.getComponentsList().clear();
 		   diagramPane.getChildren().clear();
+		   source = null;
 	   }
 	 }
 	
@@ -222,7 +224,7 @@ public class guiController {
 	}
 	
 	private void getSource() throws NullPointerException{
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubs
 		if ((btnDC.isSelected() == false) && (btnAC.isSelected()== false)){
 			alert("Source type missing","Please select type of source");
 		}else	{
@@ -235,12 +237,13 @@ public class guiController {
 						Double freq = Double.parseDouble(frequencyQuantity.getText());						
 						this.source = new Source(source,freq);
 					}catch (NumberFormatException excpetion) {
-						alert("Found input Exception","Please input a quantity for Frequency");
+						alert("Found input Exception","Please input a valid quantity for Frequency");
 					}catch (NullPointerException exception)	{
 						alert("Found input Exception","Please input a quantity for Frequency");
 					}
 				}
 			}catch (Exception excpetion) {
+				source = null;
 				alert("Found input Exception","please input a quantity for Source");
 			}	
 		}
