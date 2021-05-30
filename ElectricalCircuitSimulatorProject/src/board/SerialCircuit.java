@@ -23,7 +23,7 @@ public class SerialCircuit extends Circuit implements Calculator{
         }
         else {
             for (Component component: getComponentsList()) {
-                component.setI(Math.round(getSource().getV() / calculateZ() * 10000) / 10000);
+                component.setI(getSource().getV() / calculateZ());
             }
         }
     }

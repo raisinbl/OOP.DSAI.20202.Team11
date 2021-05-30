@@ -527,11 +527,16 @@ class DoubleFormatCell extends TableCell<Component,Double> {
         } else {
         	if(item.isInfinite()) {
         		setText("∞");
+        		setTextFill(Color.RED);
         	}else {
-//        		DecimalFormat df = new DecimalFormat("#.####");
-//        		df.setRoundingMode(RoundingMode.CEILING); 	
-//        		setText(df.format(item.toString()));
-        		setText(item.toString());
+        		String format;
+        		if (item < 1 && (item * 100 - Math.round(item * 100) != 0)) {
+        			format = String.format("%.2e", item);
+        		}
+        		else {
+        			format = String.format("%.2f", item);
+        		}
+        		setText(format);
         	}
             
         }         

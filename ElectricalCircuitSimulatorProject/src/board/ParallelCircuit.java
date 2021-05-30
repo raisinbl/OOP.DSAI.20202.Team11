@@ -11,7 +11,7 @@ public class ParallelCircuit extends Circuit implements Calculator{
     public void calculateI() {
         if (!checkShortCircuit()) {
             for (Component component: getComponentsList()) {
-                component.setI(Math.round(getSource().getV() / component.getR() * 10000) / 10000);
+                component.setI(getSource().getV() / component.getR());
             }
         }
         else {
