@@ -2,14 +2,14 @@
 ## 1.  Assignment of Members:
 **20194436 -  Nguyen Duy Hung:**
 -	ElectricalApplication.java
--	guiController.java (90 %)
+-	guiController.java (90%)
 -	guiElectrical.fxml
 
 **20194448 - Nguyen Hoang Nhat Quang:**
 -	Component, Resistor, Capacitor, Inductor.java
 -	Source.java
 -	Calculator, Circuit, ParallelCitcuit.java
--	guiController.java (10 %)
+-	guiController.java (10%)
 -	Slide presentation
 
 **20194449 - Le Hai Son:**
