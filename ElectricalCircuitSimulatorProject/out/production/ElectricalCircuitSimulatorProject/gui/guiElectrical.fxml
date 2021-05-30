@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane>
+         <children>
+            <VBox layoutX="121.0" layoutY="33.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="508.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="365.0" text="Không sợ cháy" textFill="#eb9443">
+                     <font>
+                        <Font name="System Italic" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Choose your circuit type">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Label>
+                  <HBox focusTraversable="true">
+                     <children>
+                        <Button fx:id="btnSerial" mnemonicParsing="false" onAction="#btnSerrialPressed" prefHeight="25.0" prefWidth="190.0" text="Serial">
+                           <HBox.margin>
+                              <Insets left="35.0" right="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="btnParralel" mnemonicParsing="false" onAction="#btnParrallelPressed" prefHeight="25.0" prefWidth="204.0" text="Parralel">
+                           <HBox.margin>
+                              <Insets left="200.0" />
+                           </HBox.margin></Button>
+                     </children>
+                  </HBox>
+                  <Label contentDisplay="CENTER" text="You gonna put a source:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                     </padding></Label>
+                  <HBox focusTraversable="true" prefHeight="35.0" prefWidth="508.0">
+                     <children>
+                        <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Source">
+                           <items>
+                              <RadioMenuItem fx:id="btnAC" mnemonicParsing="false" onAction="#btnSourcePressed" text="AC">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="source" />
+                                 </toggleGroup>
+                              </RadioMenuItem>
+                              <RadioMenuItem fx:id="btnDC" mnemonicParsing="false" onAction="#btnSourcePressed" text="DC" toggleGroup="$source" />
+                           </items>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </MenuButton>
+                        <HBox fx:id="SourceBox" focusTraversable="true">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="57.0" text="Source" textAlignment="JUSTIFY">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="15.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="sourceQuantity" prefHeight="25.0" prefWidth="104.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label prefHeight="17.0" prefWidth="22.0" text="(V)" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="20.0" right="10.0" />
+                           </HBox.margin>
+                        </HBox>
+                        <HBox fx:id="FrequencyBox" focusTraversable="true" prefHeight="35.0" prefWidth="203.0" visible="false">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="63.0" text="Frequency" />
+                              <TextField fx:id="frequencyQuantity" prefHeight="25.0" prefWidth="103.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label text="(Hz)" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <ScrollPane fx:id="componentPane" fitToHeight="true" fitToWidth="true" maxHeight="350.0" maxWidth="750.0" prefHeight="266.0" prefWidth="508.0">
+                     <content>
+                        <VBox fx:id="contentBox" maxWidth="500.0" spacing="10.0">
+                           <opaqueInsets>
+                              <Insets bottom="20.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="15.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </ScrollPane>
+                  <Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="39.0" text="Choose your components: (maximum 5)">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </VBox.margin>
+                  </Label>
+                  <GridPane alignment="CENTER" focusTraversable="true" prefHeight="120.0" prefWidth="350.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="btnAddR" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddRPressed" style="-fx-background-color: red;" text="Add a Resistor" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </GridPane.margin></Button>
+                        <Button fx:id="btnAddC" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddCPressed" style="-fx-background-color: green;" text="Add a Capacitor" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="5.0" top="5.0" />
+                           </GridPane.margin></Button>
+                        <Button fx:id="btnRemove" maxHeight="80.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove Component" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </GridPane.margin></Button>
+                        <Button fx:id="btnAddL" maxHeight="40.0" maxWidth="200.0" mnemonicParsing="false" onAction="#btnAddLPressed" style="-fx-background-color: blue;" text="Add a Inductor" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets right="5.0" top="5.0" />
+                           </GridPane.margin></Button>
+                     </children>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </GridPane>
+                  <Button fx:id="btnSubmit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnSubmitPressed" prefHeight="46.0" prefWidth="138.0" text="Submit" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="250.0" right="50.0" top="30.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0">
+         <children>
+            <VBox prefHeight="598.0" prefWidth="508.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="tbCircuitAnalysis" cacheHint="ROTATE" prefHeight="219.0" prefWidth="492.0">
+                    <columns>
+                        <TableColumn fx:id="colID" prefWidth="75.0" text="Component" />
+                      <TableColumn fx:id="colR" prefWidth="75.0" text="R (Ω)" />
+                      <TableColumn fx:id="colU" prefWidth="75.0" text="U (V)" />
+                        <TableColumn fx:id="colI" prefWidth="75.0" text="I (A)" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                     <rotationAxis>
+                        <Point3D x="1.0" />
+                     </rotationAxis>
+                  </TableView>
+                  <Pane fx:id="diagramPane" prefHeight="285.0" prefWidth="498.0">
+                     <children>
+                        <Label fx:id="boomTItle" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="220.0" layoutY="14.0" text="BOOM!! Your Board">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <HBox alignment="CENTER" spacing="100.0">
+                     <children>
+                        <Button fx:id="btnCreateNewCircuit" mnemonicParsing="false" onAction="#btnCreateNewCircuitPressed" prefHeight="46.0" prefWidth="120.0" text="Create a new circuit" />
+                        <Button fx:id="btnExit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="59.0" text="Exit" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
