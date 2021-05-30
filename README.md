@@ -13,7 +13,7 @@
 -	Slide presentation
 
 **20194449 - Le Hai Son:**
--	Serial Circuit.java
+-	SerialCircuit.java
 -	UML diagram
 -	Report
 ## 2. Demo: 
