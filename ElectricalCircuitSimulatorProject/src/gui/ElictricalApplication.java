@@ -8,6 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javax.swing.*;
+
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class ElictricalApplication extends JFrame{
@@ -39,6 +42,22 @@ public class ElictricalApplication extends JFrame{
 			}
 		});
 		
+	}
+	public void pullThePlug() {
+	    // this will make sure WindowListener.windowClosing() et al. will be called.
+	    WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+	    Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+
+	    // this will hide and dispose the frame, so that the application quits by
+	    // itself if there is nothing else around. 
+	    setVisible(false);
+	    dispose();
+	    // if you have other similar frames around, you should dispose them, too.
+
+	    // finally, call this to really exit. 
+	    // i/o libraries such as WiiRemoteJ need this. 
+	    // also, this is what swing does for JFrame.EXIT_ON_CLOSE
+	    System.exit(0); 
 	}
 	
 	public static void main(String[] args) {

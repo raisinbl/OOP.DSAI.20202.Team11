@@ -146,13 +146,8 @@ public class guiController {
 	   }
    }
    @FXML
-   private void initialize() {
-	   btnExit.setOnAction(new EventHandler<ActionEvent>() {
-		  @Override
-		  public void handle(ActionEvent event) {
-			  Platform.exit();
-		  }
-	   });
+   private void btnExitPressed() {
+	   new ElictricalApplication(circuit).pullThePlug();
    }
    // Submit //////////////////////////////////////////////////////////////
    @FXML
@@ -254,8 +249,8 @@ public class guiController {
 	private void checkShortCircuit() {
 		ImageView img = new 
 				ImageView(new Image(getClass().getResourceAsStream("image/shortCircuit.gif")));
-		img.setFitHeight(100);
-		img.setFitWidth(60);
+		img.setFitHeight(300);
+		img.setFitWidth(160);
 		img.setLayoutX(150);
 		diagramPane.getChildren().add(img);
 		img.setVisible(true);
@@ -265,7 +260,12 @@ public class guiController {
 				img.setVisible(false);
 			}
 		});
-		alert("Short circuit detected", "Be careful!! Try not to keep your smile last forever <3 ");
+		
+		Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle("Short circuit detected");
+	    alert.setContentText("Be careful!! Try not to keep your smile last forever <3 ");
+	    alert.setGraphic(img);
+	    alert.showAndWait();
 	}
 	private void calculateCircuit() throws NullPointerException{
 		// TODO Auto-generated method stub
@@ -393,14 +393,16 @@ public class guiController {
 					VBox componentInfo = new VBox();
 
 					Label compID = new Label(component.getId());
-					Label compZ = new Label(component.getR() + " " + "Ω");
-					componentInfo.getChildren().addAll(compID,compZ);
 					
 					if(component instanceof Resistor) {
 						ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
 						imgR.setFitHeight(15);
 						imgR.setFitWidth(35);
 						imgR.setRotate(90);
+						
+						Label compZ = new Label(((Resistor)component).getR() + " " + "Ω");
+						componentInfo.getChildren().addAll(compID,compZ);
+						
 						componentBox.getChildren().addAll(imgR,componentInfo);
 						componentBox.setLayoutX(LayoutX+130+100*i);
 						componentBox.setLayoutY(LayoutY+85);
@@ -409,6 +411,10 @@ public class guiController {
 						imgC.setFitHeight(35);
 						imgC.setFitWidth(15);
 						imgC.setRotate(90);
+						
+						Label compZ = new Label(((Capacitor)component).getC() + " " + "F");
+						componentInfo.getChildren().addAll(compID,compZ);
+						
 						componentBox.setLayoutX(LayoutX+140+100*i);
 						componentBox.setLayoutY(LayoutY+80);
 						componentBox.setSpacing(15);
@@ -418,6 +424,9 @@ public class guiController {
 						imgL.setFitHeight(15);
 						imgL.setFitWidth(35);
 						imgL.setRotate(90);
+						
+						Label compZ = new Label(((Inductor)component).getL() + " " + "H");
+						componentInfo.getChildren().addAll(compID,compZ);
 						componentBox.setLayoutX(LayoutX+130+100*i);
 						componentBox.setLayoutY(LayoutY+85);
 						componentBox.getChildren().addAll(imgL,componentInfo);
@@ -457,13 +466,13 @@ public class guiController {
 					VBox componentBox = new VBox();
 					VBox componentInfo = new VBox();
 					Label compID = new Label(component.getId());
-					Label compZ = new Label(component.getR() + " " + "Ω");
-					componentInfo.getChildren().addAll(compID,compZ);
-					
+										
 					if(component instanceof Resistor) {
 						ImageView imgR = new ImageView(new Image(getClass().getResourceAsStream("image/resistor.png")));
 						imgR.setFitHeight(15);
 						imgR.setFitWidth(35);
+						Label compZ = new Label(((Resistor)component).getR() + " " + "Ω");
+						componentInfo.getChildren().addAll(compID,compZ);
 						componentBox.getChildren().addAll(componentInfo,imgR);
 						componentBox.setLayoutX(LayoutX+80+100*i);
 						componentBox.setLayoutY(LayoutY+6);
@@ -471,6 +480,8 @@ public class guiController {
 						ImageView imgC = new ImageView(new Image(getClass().getResourceAsStream("image/Capacitor.png")));
 						imgC.setFitHeight(35);
 						imgC.setFitWidth(15);
+						Label compZ = new Label(((Capacitor)component).getC() + " " + "F");
+						componentInfo.getChildren().addAll(compID,compZ);
 						componentBox.setLayoutX(LayoutX+80+100*i);
 						componentBox.setLayoutY(LayoutY);
 						componentBox.getChildren().addAll(componentInfo,imgC);
@@ -478,6 +489,8 @@ public class guiController {
 						ImageView imgL = new ImageView(new Image(getClass().getResourceAsStream("image/Inductor.png")));
 						imgL.setFitHeight(15);
 						imgL.setFitWidth(35);
+						Label compZ = new Label(((Inductor)component).getL() + " " + "H");
+						componentInfo.getChildren().addAll(compID,compZ);
 						componentBox.setLayoutX(LayoutX+80+100*i);
 						componentBox.setLayoutY(LayoutY+8);
 						componentBox.getChildren().addAll(componentInfo,imgL);
