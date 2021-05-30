@@ -1,31 +1,35 @@
 package gui;
 
+import board.Circuit;
+import board.ParallelCircuit;
+import board.SerialCircuit;
+import board.component.Capacitor;
+import board.component.Component;
+import board.component.Inductor;
+import board.component.Resistor;
+import board.component.complex.Complex;
+import board.source.Source;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.util.Callback;
-import board.component.*;
-import board.component.complex.Complex;
-import board.source.Source;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
-import board.*;
 
 public class guiController {
 
@@ -154,6 +158,7 @@ public class guiController {
    @FXML
    void btnSubmitPressed(ActionEvent event) throws Exception{
 	   try {
+	   circuit.removeAllComponent();
 	   circuit.resetNComponents();
 	   diagramPane.getChildren().clear();
 //	   componentBox.i = 0;
