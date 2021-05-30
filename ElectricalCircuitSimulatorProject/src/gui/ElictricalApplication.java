@@ -1,15 +1,14 @@
 package gui;
 
-import java.io.IOException;
-
-import javax.swing.JFrame;
-
 import board.Circuit;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+import javax.swing.*;
+import java.io.IOException;
 
 public class ElictricalApplication extends JFrame{
 	private Circuit circuit;
@@ -20,7 +19,7 @@ public class ElictricalApplication extends JFrame{
 		
 		JFXPanel fxPanel = new JFXPanel();
 		this.add(fxPanel);
-		this.setSize(1024,720);
+		this.setSize(1400,720);
 		this.setTitle("Demo");
 		this.setVisible(true);
 		Platform.runLater(new Runnable(){
