@@ -1,8 +1,7 @@
 package board.test;
 
-import board.ParallelCircuit;
+import board.SerialCircuit;
 import board.component.Capacitor;
-import board.component.Component;
 import board.component.Inductor;
 import board.component.Resistor;
 import board.source.Source;
@@ -51,30 +50,18 @@ public class Test {
 //        circuit.addComponent(C3);
 
         // Data 4
-        Source source = new Source(10, 200);
+        Source source = new Source(10, 0);
         Resistor R1 = new Resistor(5);
         Inductor L2 = new Inductor(10*Math.pow(10, -3), source.getF());
         Capacitor C3 = new Capacitor(20*Math.pow(10, -6), source.getF());
-        ParallelCircuit circuit = new ParallelCircuit();
+        SerialCircuit circuit = new SerialCircuit();
         circuit.addSource(source);
         circuit.addComponent(R1);
         circuit.addComponent(L2);
         circuit.addComponent(C3);
-        
-		ParallelCircuit circuit1 = new ParallelCircuit();
-		circuit1.addSource(source);
-		for (Component i: circuit.getComponentsList()) {
-			Component component = new Component();
-			component.setId(i.getId().toString());
-			component.setR(i.getRComplex());
-			component.setV(i.getV());
-			component.setI(i.getI());
-			circuit1.addComponent(component);
-//			System.out.println(i.getId());
-		}
-		
-        circuit1.calculateV();
-        circuit1.calculateI();
-        circuit1.displayAnalysis();
+
+        circuit.calculateI();
+        circuit.calculateV();
+        circuit.displayAnalysis();
     }
 }

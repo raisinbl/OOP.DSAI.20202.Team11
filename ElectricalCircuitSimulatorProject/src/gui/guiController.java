@@ -253,7 +253,7 @@ public class guiController {
 	}
 	private void checkShortCircuit() {
 		ImageView img = new 
-				ImageView(new Image(getClass().getResourceAsStream("image/shortCircuit.png")));
+				ImageView(new Image(getClass().getResourceAsStream("image/shortCircuit.gif")));
 		img.setFitHeight(100);
 		img.setFitWidth(60);
 		img.setLayoutX(150);
