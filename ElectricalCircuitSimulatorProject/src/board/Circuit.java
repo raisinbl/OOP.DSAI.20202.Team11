@@ -24,7 +24,7 @@ public class Circuit {
         }
     }
     public void removeAllComponent() {
-    	componentsList.removeAll(componentsList);
+    	componentsList.clear();
     	}
 
     public void removeComponent() {

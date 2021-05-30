@@ -1,10 +1,12 @@
 package gui;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,14 +16,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
+import javafx.util.Callback;
 import board.component.*;
 import board.component.complex.Complex;
 import board.source.Source;
 
-import java.io.Closeable;
-
-import com.sun.javafx.stage.EmbeddedWindow;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import board.*;
 
@@ -33,14 +35,12 @@ public class guiController {
     @FXML
     private TableColumn<Component, String> colID;
     @FXML
-    private TableColumn<Component, Double> colI, colU;
-
-    @FXML	
-    private TableColumn<Component, Complex> colR;
+    private TableColumn<Component, Double> colI, colU, colR;
     
     @FXML
     private Pane diagramPane;
-    
+    @FXML 
+    private Label boomTitle;
     @FXML
     private VBox contentBox;
     @FXML
@@ -67,10 +67,7 @@ public class guiController {
     	super();
     	this.circuit = circuit;
     }
-    @FXML
-    void initialize() {
-    	
-    }
+
     @FXML
     void btnCreateNewCircuitPressed(ActionEvent event) {
     	resetFactory();
@@ -131,20 +128,8 @@ public class guiController {
 			contentBox.getChildren().add(componentBox);
 		}
    }
-   @FXML
-   void btnExitPressed(ActionEvent event) throws Exception{
-	   btnExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-		@Override
-		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub
-			EmbeddedWindow stage = (EmbeddedWindow) btnExit.getScene().getWindow();
-		    // do what you have to do
-		    stage.getOnCloseRequest();
-		}
-		   
-	   });
-   }
+   
+   
    @FXML
    void btnRemovePressed(ActionEvent event) throws Exception {
 	   try {
@@ -156,36 +141,71 @@ public class guiController {
 	   } catch(IndexOutOfBoundsException exception){
 	   }
    }
-   
+   @FXML
+   private void initialize() {
+	   btnExit.setOnAction(new EventHandler<ActionEvent>() {
+		  @Override
+		  public void handle(ActionEvent event) {
+			  Platform.exit();
+		  }
+	   });
+   }
    // Submit //////////////////////////////////////////////////////////////
    @FXML
    void btnSubmitPressed(ActionEvent event) throws Exception{
 	   try {
 	   circuit.resetNComponents();
-	   componentBox.i = 0;
+	   diagramPane.getChildren().clear();
+//	   componentBox.i = 0;
 	   checkCircuit();
 	   getSource();
 	   getComponent();
 	   calculateCircuit();
 	   circuit.displayAnalysis();
-	   } catch (NullPointerException exception) {
-		   System.out.println("");
-	   }
-	  
 	   getData();
 	   createDigram(circuit);
+	   } catch (Exception exception) {
+		   circuit.getComponentsList().clear();
+		   diagramPane.getChildren().clear();
+	   }
 	 }
+	
 	private void getData() {
 
     	colID.setCellValueFactory(new 
     			PropertyValueFactory<Component, String>("id"));
     	colR.setCellValueFactory(new 
-    			PropertyValueFactory<Component, Complex>("R"));
+    			PropertyValueFactory<Component, Double>("R"));
     	colU.setCellValueFactory(new 
     			PropertyValueFactory<Component, Double>("V"));
     	colI.setCellValueFactory(new 
     			PropertyValueFactory<Component, Double>("I"));
     	tbCircuitAnalysis.setItems(circuit.getComponentsList());
+    	//set cell factory
+    	colR.setCellFactory(new Callback<TableColumn<Component,Double>,TableCell<Component,Double>>(){
+
+			@Override
+			public TableCell<Component,Double> call(TableColumn<Component, Double> list) {
+				// TODO Auto-generated method stub
+				return new DoubleFormatCell();
+			}
+    	});
+    	colI.setCellFactory(new Callback<TableColumn<Component,Double>,TableCell<Component,Double>>(){
+
+			@Override
+			public TableCell<Component,Double> call(TableColumn<Component, Double> list) {
+				// TODO Auto-generated method stub
+				return new DoubleFormatCell();
+			}
+    	});
+    	colU.setCellFactory(new Callback<TableColumn<Component,Double>,TableCell<Component,Double>>(){
+
+			@Override
+			public TableCell<Component,Double> call(TableColumn<Component, Double> list) {
+				// TODO Auto-generated method stub
+				return new DoubleFormatCell();
+			}
+    	});
 	}
 	private void alert (String title, String content) {
 		Alert alert = new Alert(AlertType.WARNING);
@@ -220,7 +240,7 @@ public class guiController {
 						alert("Found input Exception","Please input a quantity for Frequency");
 					}
 				}
-			}catch (NumberFormatException excpetion) {
+			}catch (Exception excpetion) {
 				alert("Found input Exception","please input a quantity for Source");
 			}	
 		}
@@ -228,9 +248,10 @@ public class guiController {
 	}
 	private void checkShortCircuit() {
 		ImageView img = new 
-				ImageView(new Image(getClass().getResourceAsStream("image/AC.png")));
+				ImageView(new Image(getClass().getResourceAsStream("image/shortCircuit.png")));
 		img.setFitHeight(100);
 		img.setFitWidth(60);
+		img.setLayoutX(150);
 		diagramPane.getChildren().add(img);
 		img.setVisible(true);
 		img.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -239,7 +260,7 @@ public class guiController {
 				img.setVisible(false);
 			}
 		});
-		alert("Your circuit is a short circuit!!", "Be careful!! Try not to keep your smile last forever <3 ");
+		alert("Short circuit detected", "Be careful!! Try not to keep your smile last forever <3 ");
 	}
 	private void calculateCircuit() throws NullPointerException{
 		// TODO Auto-generated method stub
@@ -259,7 +280,7 @@ public class guiController {
 					checkShortCircuit();
 				}
 			}
-		} catch (NullPointerException exception) {
+		} catch (Exception exception) {
 //			alert("Circuit type choosing ALERT!","You have not choose a Circuit type yet");
 		}
 	}
@@ -291,9 +312,12 @@ public class guiController {
 			   }
 			}catch (NumberFormatException exception){
 					alert("Found Input Exception", "Please input a quantity for component");
-							
+					this.circuit.getComponentsList().clear();
+					this.diagramPane.getChildren().clear();		
 			   }catch (NullPointerException exception) {
-				   
+				   this.circuit.getComponentsList().clear();
+				   this.diagramPane.getChildren().clear();
+				   alert("Found Input Exception", "Please input a quantity for component");
 			   }
 	}
 	void resetFactory() {
@@ -310,13 +334,20 @@ public class guiController {
 	    //reset source
 	   	btnAC.setSelected(false);
 	   	btnDC.setSelected(false);
+	   	FrequencyBox.setVisible(false);
 	   	diagramPane.getChildren().clear();
 	}
-	void createDigram(Circuit circuit) throws Exception {
+	void createDigram(Circuit circuit) throws Exception{
 		try {
 		double LayoutX = 30;
-		double LayoutY = 30;
+		double LayoutY = 50;
 		ObservableList<Component> list = this.circuit.getComponentsList();
+		//set a Label
+		Label boom = new Label("BOOM!! Your Board");
+		boom.setLayoutX(230);
+		boom.setLayoutY(15);
+		boom.setTextFill(Color.INDIANRED);
+		diagramPane.getChildren().add(boom);
 		
 		ImageView imgSrc;
 		if (source.getF() == 0) {
@@ -326,6 +357,9 @@ public class guiController {
 		}
 		imgSrc.setFitHeight(35);
 		imgSrc.setFitWidth(35);
+		//a rounding method
+		DecimalFormat round = new DecimalFormat("#.####");
+		round.setRoundingMode(RoundingMode.CEILING);
 		
 		if(circuit instanceof ParallelCircuit) {	
 			imgSrc.setLayoutX(LayoutX+30);
@@ -352,8 +386,9 @@ public class guiController {
 					Component component = (Component) list.toArray()[i];
 					HBox componentBox = new HBox();
 					VBox componentInfo = new VBox();
+
 					Label compID = new Label(component.getId());
-					Label compZ = new Label(component.getR() + " " + component.getUnit() );
+					Label compZ = new Label(component.getR() + " " + "Ω");
 					componentInfo.getChildren().addAll(compID,compZ);
 					
 					if(component instanceof Resistor) {
@@ -417,7 +452,7 @@ public class guiController {
 					VBox componentBox = new VBox();
 					VBox componentInfo = new VBox();
 					Label compID = new Label(component.getId());
-					Label compZ = new Label(component.getR() + " " + component.getUnit());
+					Label compZ = new Label(component.getR() + " " + "Ω");
 					componentInfo.getChildren().addAll(compID,compZ);
 					
 					if(component instanceof Resistor) {
@@ -448,10 +483,12 @@ public class guiController {
 			}
 		}
 		}catch(NullPointerException exception) {
-			
+			circuit.removeAllComponent();
+			diagramPane.getChildren().clear();
 		}
 		
 	}
+
 }
 
 
@@ -477,7 +514,29 @@ class componentBox extends HBox{
 		this.getChildren().addAll(name,quantity,unit);
 	}
 }
+class DoubleFormatCell extends TableCell<Component,Double> {
 
+    public DoubleFormatCell() {    }
+      
+	@Override protected void updateItem(Double item, boolean empty) {
+        
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+            setText(null);
+            setGraphic(null);
+        } else {
+        	if(item.isInfinite()) {
+        		setText("∞");
+        	}else {
+//        		DecimalFormat df = new DecimalFormat("#.####");
+//        		df.setRoundingMode(RoundingMode.CEILING); 	
+//        		setText(df.format(item.toString()));
+        		setText(item.toString());
+        	}
+            
+        }         
+    }
+}
 
 
 
