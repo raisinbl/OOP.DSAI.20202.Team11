@@ -153,7 +153,7 @@ public class guiController {
    @FXML
    void btnSubmitPressed(ActionEvent event) throws Exception{
 	   try {
-	   circuit.removeAllComponent();
+	   circuit.getComponentsList().clear();
 	   circuit.resetNComponents();
 	   source = null;
 	   diagramPane.getChildren().clear();
@@ -166,6 +166,7 @@ public class guiController {
 	   getData();
 	   createDigram(circuit);
 	   } catch (Exception exception) {
+		   diagramPane.setVisible(false);
 		   circuit.getComponentsList().clear();
 		   diagramPane.getChildren().clear();
 		   source = null;
@@ -319,7 +320,7 @@ public class guiController {
 				   }
 			   }
 			}catch (NumberFormatException exception){
-					alert("Found Input Exception", "Please input a quantity for component");
+					alert("Found Input Exception", "Please input a valid quantity for component");
 					this.circuit.getComponentsList().clear();
 					this.diagramPane.getChildren().clear();		
 			   }catch (NullPointerException exception) {
@@ -337,8 +338,8 @@ public class guiController {
 		//reset circuit
 		btnSerial.setTextFill(Color.BLACK);
 	    btnParralel.setTextFill(Color.BLACK);
-	    circuit = (Circuit)circuit;
-	    circuit.removeAllComponent();
+	    circuit.getComponentsList().clear();
+	    circuit = new Circuit();
 	    //reset source
 	   	btnAC.setSelected(false);
 	   	btnDC.setSelected(false);
