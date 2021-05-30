@@ -190,7 +190,7 @@ public class guiController {
 			@Override
 			public TableCell<Component,Double> call(TableColumn<Component, Double> list) {
 				// TODO Auto-generated method stub
-				return new DoubleFormatCell();
+				return new DoubleFormatCellR();
 			}
     	});
     	colI.setCellFactory(new Callback<TableColumn<Component,Double>,TableCell<Component,Double>>(){
@@ -206,7 +206,7 @@ public class guiController {
 			@Override
 			public TableCell<Component,Double> call(TableColumn<Component, Double> list) {
 				// TODO Auto-generated method stub
-				return new DoubleFormatCell();
+				return new DoubleFormatCellR();
 			}
     	});
 	}
@@ -550,6 +550,33 @@ class DoubleFormatCell extends TableCell<Component,Double> {
         	if(item.isInfinite()) {
         		setText("∞");
         		setTextFill(Color.RED);
+        	}else {
+        		String format;
+        		if (item < 1 && (item * 100 - Math.round(item * 100) != 0)) {
+        			format = String.format("%.2e", item);
+        		}
+        		else {
+        			format = String.format("%.2f", item);
+        		}
+        		setText(format);
+        	}
+            
+        }         
+    }
+}
+class DoubleFormatCellR extends TableCell<Component,Double> {
+
+    public DoubleFormatCellR() {    }
+      
+	@Override protected void updateItem(Double item, boolean empty) {
+        
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+            setText(null);
+            setGraphic(null);
+        } else {
+        	if(item.isInfinite()) {
+        		setText("∞");
         	}else {
         		String format;
         		if (item < 1 && (item * 100 - Math.round(item * 100) != 0)) {
