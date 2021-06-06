@@ -17,4 +17,6 @@
 -	UML diagram
 -	Report
 ## 2. Demo: 
-bitly.com/khong-so-chay-demo-video
+[Khong so chay](https://www.youtube.com/watch?v=-f6Cv705vYw)
+## 3. Presentation Video:
+[Presentation](https://github.com/raisinbl/OOP.DSAI.20202.Team11/blob/master/ElectricalCircuitSimulatorProject/presentation.mp4)
